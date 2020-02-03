@@ -17,7 +17,9 @@
 
 <script>
 function move(dir){
-  fetch('./${dir}')
+  console.log(dir)
+  console.log(`./${dir}`)
+  fetch(`./${dir}`)
 }
 
 function fetch_sensors(sensor){
