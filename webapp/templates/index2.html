@@ -1,0 +1,54 @@
+<html>
+<style>
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+</style>
+<head>
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+<!--<img src="sprouted_side.png" alt="sprouted logo">-->
+<h1>Sprout.ed<h1>
+
+<h1>Overrides</h1>
+<h2>Gantry Movement</h2>
+<a class="button" href="/movebackward">Backward</a>
+<a href="/moveforward" class="button">Forward</a>
+
+<h2>Grab sensor data</h2>
+<a class="button" href="/sensors">Grab Data</a>
+<!--<button class="button" type="button">Grab data</button>-->
+<!--<div id="sensed"> No data </div>-->
+<p id="sensed">{{sensor_reading}}</p>
+
+
+<script>
+function move(dir){
+  console.log(dir)
+  console.log(`./${dir}`)
+  fetch(`./${dir}`)
+}
+
+function fetch_sensors(sensor){
+  fetch('./sensors').then(function(data) {
+    console.log(data)
+    document.getElementById('sensed').innerHTML = data
+  })
+}
+function show_sensor(){
+    console.log(sensor_reading)
+    document.getElementById('sensed').innerHTML = {{sensor_reading}}
+}
+</script>
+</body>
+</html>
+

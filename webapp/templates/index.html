@@ -3,30 +3,11 @@
 <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
-<img src="/resources/sprouted_side.png" alt="sprouted logo">
+<h1>Sprout.ed</h1>
+<a href="/hello/Sonia">Hi Sonia</a>
 
-<h1>Overrides/h1>
-<h2>Gantry Movement</h2>
-<button type="button" onclick="move('backward')">Backward</button>
-<button type="button" onclick="move('forward')">Forward</button>
-
-<h2>Grab sensor data</h2>
-<button type="button" onclick="fetch_sensors()">Grabbem</button>
-<div id="sensed"> No data </div>
-
-
-<script>
-function move(dir){
-  console.log(dir)
-  console.log(`./${dir}`)
-  fetch(`./${dir}`)
-}
-
-function fetch_sensors(sensor){
-  fetch('./sensors').then(function(data) {
-    document.getElementById('sensed').innerHTML = "changed"
-  })
-}
-</script>
+<h2>The Button Element</h2>
+<button type="button" onclick="alert('Hello world!')">Click Me!</button>
+<h2>Sensor Reading: {{ sensor_reading }}</h2>
 </body>
 </html>
