@@ -31,11 +31,12 @@ def onStateChanged(state, msg):
         print("DEBUG: Client:-- Message received: ", msg)
 
 
-def initClient():
+def initClient(message):
    global client
    client = TCPClient(server_ip, server_port, stateChanged=onStateChanged)
    print("Temporary Client initialized")
-   message= "Test Message 2"
+
+   message2 = "Message 2"
    try:
        while True:
            rc = client.connect()
@@ -43,9 +44,9 @@ def initClient():
            if rc:
                isConnected = True
                print("Sending message to server: " + message)
-               print(client.sendMessage(message, responseTime=0))
+               client.sendMessage(message, responseTime=0)
+               client.sendMessage(message2, responseTime=0)
                sleep(0.001)
-               client.disconnect()
                break
            else:
                print("Client:-- Temp Connection Failed")
@@ -53,8 +54,7 @@ def initClient():
                break
    except KeyboardInterrupt:
         pass
-   client.disconnect()
-#def main():
+   #def main():
  #   global client
   #  client = TCPClient(server_ip, server_port, stateChanged=onStateChanged)
    # print("Client starting")

@@ -1,9 +1,4 @@
 body {
-    background: gray;
+    background: green;
     color: white;
-}
-
-img{
-    width:100%;
-    max-width:200px;
 }
