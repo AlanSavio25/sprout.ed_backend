@@ -1,24 +1,10 @@
 <html>
-<style>
-.button {
-  background-color: #4CAF50; /* Green */
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-}
-
-</style>
 <head>
-<link rel="stylesheet" href="/static/style.css" />
+  <link rel="stylesheet" href="/static/style.css" />
+  <script src="/resources/Chart.bundle.js"></script>
 </head>
 <body>
-<!--<img src="sprouted_side.png" alt="sprouted logo">-->
-<h1>Sprout.ed<h1>
-
+<img class= "logo" src="/resources/sprouted_side.png" alt="sprouted logo">
 <h1>Overrides</h1>
 <h2>Gantry Movement</h2>
 <a class="button" href="/movebackward">Backward</a>
@@ -29,6 +15,11 @@
 <!--<button class="button" type="button">Grab data</button>-->
 <!--<div id="sensed"> No data </div>-->
 <p id="sensed">{{sensor_reading}}</p>
+<a class="button" onclick="addData()">Add Data</a>
+<a class="button" onclick="addData(true)">Add Data w/ preserve</a>
+<canvas id="temp" width=100% height="40px"></canvas>
+<canvas id="humidity" width=100% height="40px"></canvas>
+
 
 
 <script>
@@ -46,9 +37,71 @@ function fetch_sensors(sensor){
 }
 function show_sensor(){
     console.log(sensor_reading)
-    document.getElementById('sensed').innerHTML = {{sensor_reading}}
+    //document.getElementById('sensed').innerHTML = {{sensor_reading}}
 }
+
+offset = 1
+tempReadings = [12, 19, 3, 5, 2, 3];
+humidReadings = [0.5,0.4,0.2,0.5,0.5,0.44];
+timeL = ['t-5', 't-4', 't-3', 't-2', 't-1', 't-0'];
+function addData(preserve){
+  if(tempReadings.length >= 100){
+    preserve = false;
+  }
+  if (preserve){
+    timeL.push(`t-${offset+=1}`)
+  } else {
+    tempReadings.shift();
+    humidReadings.shift();
+  }
+
+  tempReadings.push(Math.floor((Math.random() * 20) + 1))
+  humidReadings.push(Math.random())
+  console.log(tempReadings,humidReadings,timeL)
+  humidChart.update();
+  tempChart.update();
+}
+
+
+
+// janky for now but not forever
+var tempChart = new Chart(document.getElementById('temp').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: timeL,
+        datasets:[{
+          label: "temp",
+          data:  tempReadings,
+          borderColor: "#ffa500"
+        }]
+    },
+    options: {
+        title: {
+         display: true,
+         text: 'Temperature Readings'
+        }
+    }
+});
+
+var humidChart = new Chart(document.getElementById('humidity').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: timeL,
+        datasets:[{
+          label: "humidity",
+          data:  humidReadings,
+          borderColor: "#0000ff"
+        }]
+    },
+    options: {
+        title: {
+         display: true,
+         text: 'Humidity Readings'
+        }
+    }
+});
+
+
 </script>
 </body>
 </html>
-
