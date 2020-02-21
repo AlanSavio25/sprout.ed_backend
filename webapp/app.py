@@ -6,15 +6,18 @@ import client
 import grove_moisture_sensor as grove
 
 app = Flask(__name__)
-sensor_reading=0
 
 @app.route('/')
-def index():
-    return render_template('index2.html', sensor_reading="Please Click Button")
+def home():
+    return render_template('home.html')
 
-@app.route('/stats')
-def stats():
-    return render_template('stats.html')
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
+
+@app.route('/overrides')
+def overrides():
+    return render_template('overrides.html', sensor_reading="Please Click Button")
 
 @app.route('/move<direction>')
 def move(direction):
@@ -23,12 +26,12 @@ def move(direction):
     else:
         message="Move Motors Backwards"
     client.initClient(message)
-    return render_template('index2.html', sensor_reading="Please Click Button")
+    return render_template('overrides.html', sensor_reading="Please Click Button")
 
 @app.route('/sensors')
 def sensor_reading():
-    return render_template('index2.html', sensor_reading=grove.sensor_readings())
-
+    return render_template('overrides.html', sensor_reading=grove.sensor_readings())
+    # return render_template('overrides.html', sensor_reading="Soil Moisture: 327, Temperature: 22°C")
 
 if __name__ == '__main__':
 #    app.run(debug=True, host='127.0.1.1',port=8080)
