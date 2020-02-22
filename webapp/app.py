@@ -4,8 +4,13 @@ sys.path.insert(1, '../grove.py/grove/')
 from flask import Flask, render_template
 import client
 import grove_moisture_sensor as grove
+import photo
+import time
+from timeloop import Timeloop
+from datetime import timedelta
+tl = Timeloop()
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 @app.route('/')
 def home():
@@ -20,11 +25,14 @@ def overrides():
     return render_template('overrides.html', sensor_reading="Please Click Button")
 
 @app.route('/move<direction>')
+#update direction to be 23 for (2,3)
 def move(direction):
     if (direction == 'forward'):
         message = "Move Motors"
+    elif (direction == 'backward'):
+        message="Move Motors Backward"
     else:
-        message="Move Motors Backwards"
+        message = direction
     client.initClient(message)
     return render_template('overrides.html', sensor_reading="Please Click Button")
 
@@ -33,7 +41,17 @@ def sensor_reading():
     return render_template('overrides.html', sensor_reading=grove.sensor_readings())
     # return render_template('overrides.html', sensor_reading="Soil Moisture: 327, Temperature: 22°C")
 
+@app.route('/image')
+def image():
+    photo.clickPhoto()
+    time.sleep(1)
+    return render_template('image.html')
+
+@tl.job(interval=timedelta(seconds=2))
+def sample_job_every_2s():
+    print "2s job current time : {}".format(time.ctime())
+
 if __name__ == '__main__':
-#    app.run(debug=True, host='127.0.1.1',port=8080)
-    app.run(host='0.0.0.0', debug=True)
-#    app.run()
+    tl.start(block=False)
+    # If debug is set to true, another timeloop instance is started for some reason
+    app.run(host='0.0.0.0', debug=False)
