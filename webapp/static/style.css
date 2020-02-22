@@ -45,12 +45,13 @@ header {
     background-color: white;
 }
 
-.quotes {
+#quotes {
     background-color: #f2f2f2; /* light grey */
     color: #003300; /* dark green */
     padding: 50px;
     margin: 30px 50px 50px 50px;
     text-align: center;
+    display: block;
 }
 
 .plant_map {
@@ -84,4 +85,15 @@ header {
 .plant_dashboard {
 /*background-color: #DFFFF7;*/
     text-align: center;
+}
+
+#image_viewer {
+    display: none;
+}
+
+#plant_photo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
 }
