@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>sprout.ed - Overrides</title>
+      <link rel="stylesheet" href="/static/style.css" />
+      <link rel="shortcut icon" type="image/png" href="/static/favicon.png"/>
+      <script src="/resources/Chart.bundle.js"></script>
+  </head>
+  <body>
+    <header>
+      <img class= "logo" src="/static/logo_green.png" alt="sprouted logo"/>
+      <h1 class="header">Appleton 3 - Overrides</h1>
+      <a class="button" href="/">Home</a>
+      <a class="button" href="/admin">Admin</a>
+    </header>
+    <div class="overrides">
+      <h2>Gantry Movement</h2>
+      <a class="button" href="/movebackward">Backward</a>
+      <a href="/moveforward" class="button">Forward</a>
+
+      <h2>Grab sensor data</h2>
+      <a class="button" href="/sensors">Grab Data</a>
+      <!--<button class="button" type="button">Grab data</button>-->
+      <!--<div id="sensed"> No data </div>-->
+      <p id="sensed">{{sensor_reading}}</p>
+      <a class="button" onclick="addData()">Add Data</a>
+      <a class="button" onclick="addData(true)">Add Data w/ preserve</a>
+      <canvas id="temp" width=100% height="40px"></canvas>
+      <canvas id="humidity" width=100% height="40px"></canvas>
+    </div>
+    <footer>
+            <p>© 2020 sprout.ed - contact us at <a href="mailto:sprouted04@gmail.com">sprouted04@gmail.com</a></p>
+    </footer>
+
+    <script>
+    function move(dir){
+      console.log(dir)
+      console.log(`./${dir}`)
+      fetch(`./${dir}`)
+    }
+
+    function fetch_sensors(sensor){
+      fetch('./sensors').then(function(data) {
+        console.log(data)
+        document.getElementById('sensed').innerHTML = data
+      })
+    }
+    function show_sensor(){
+        console.log(sensor_reading)
+        //document.getElementById('sensed').innerHTML = {{sensor_reading}}
+    }
+
+    offset = 1
+    tempReadings = [12, 19, 3, 5, 2, 3];
+    humidReadings = [0.5,0.4,0.2,0.5,0.5,0.44];
+    timeL = ['t-5', 't-4', 't-3', 't-2', 't-1', 't-0'];
+    function addData(preserve){
+      if(tempReadings.length >= 100){
+        preserve = false;
+      }
+      if (preserve){
+        timeL.push(`t-${offset+=1}`)
+      } else {
+        tempReadings.shift();
+        humidReadings.shift();
+      }
+
+      tempReadings.push(Math.floor((Math.random() * 20) + 1))
+      humidReadings.push(Math.random())
+      console.log(tempReadings,humidReadings,timeL)
+      humidChart.update();
+      tempChart.update();
+    }
+
+
+
+    // janky for now but not forever
+    var tempChart = new Chart(document.getElementById('temp').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: timeL,
+            datasets:[{
+              label: "temp",
+              data:  tempReadings,
+              borderColor: "#ffa500"
+            }]
+        },
+        options: {
+            title: {
+             display: true,
+             text: 'Temperature Readings'
+            }
+        }
+    });
+
+    var humidChart = new Chart(document.getElementById('humidity').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: timeL,
+            datasets:[{
+              label: "humidity",
+              data:  humidReadings,
+              borderColor: "#0000ff"
+            }]
+        },
+        options: {
+            title: {
+             display: true,
+             text: 'Humidity Readings'
+            }
+        }
+    });
+
+
+    </script>
+  </body>
+</html>

@@ -11,15 +11,18 @@ from datetime import timedelta
 tl = Timeloop()
 
 app = Flask(__name__, static_url_path='/static')
-sensor_reading=0
 
 @app.route('/')
-def index():
-    return render_template('index.html', sensor_reading="Please Click Button")
+def home():
+    return render_template('home.html')
 
-@app.route('/stats')
-def stats():
-    return render_template('stats.html')
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
+
+@app.route('/overrides')
+def overrides():
+    return render_template('overrides.html', sensor_reading="Please Click Button")
 
 @app.route('/move<direction>')
 #update direction to be 23 for (2,3)
@@ -31,25 +34,19 @@ def move(direction):
     else:
         message = direction
     client.initClient(message)
-    return render_template('index.html', sensor_reading="Please Click Button")
+    return render_template('overrides.html', sensor_reading="Please Click Button")
 
 @app.route('/sensors')
 def sensor_reading():
-    return render_template('index.html', sensor_reading=grove.sensor_readings())
+    return render_template('overrides.html', sensor_reading=grove.sensor_readings())
+    # return render_template('overrides.html', sensor_reading="Soil Moisture: 327, Temperature: 22°C")
 
-<<<<<<< HEAD
 @app.route('/image')
 def image():
     photo.clickPhoto()
     time.sleep(1)
     return render_template('image.html')
 
-if __name__ == '__main__':
-#    app.run(debug=True, host='127.0.1.1',port=8080)
-    app.run(host='0.0.0.0', debug=True)
-#    app.run()
-
-=======
 @tl.job(interval=timedelta(seconds=2))
 def sample_job_every_2s():
     print "2s job current time : {}".format(time.ctime())
@@ -58,4 +55,3 @@ if __name__ == '__main__':
     tl.start(block=False)
     # If debug is set to true, another timeloop instance is started for some reason
     app.run(host='0.0.0.0', debug=False)
->>>>>>> 9379ba781d21923296a612338eb0e72b99275f79
