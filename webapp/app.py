@@ -6,9 +6,9 @@ import client
 import grove_moisture_sensor as grove
 import photo
 import time
-#from timeloop import Timeloop
-#from datetime import timedelta
-#tl = Timeloop()
+from timeloop import Timeloop
+from datetime import timedelta
+tl = Timeloop()
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -49,11 +49,11 @@ def image():
     time.sleep(1)
     return render_template('image.html')
 
-#@tl.job(interval=timedelta(seconds=60))
-#def sample_job_every_60s():
-#    print "60s : {}".format(time.ctime())
+@tl.job(interval=timedelta(seconds=60))
+def sample_job_every_60s():
+    print("60s : {}".format(time.ctime()))
 
 if __name__ == '__main__':
-    #tl.start(block=False)
+    tl.start(block=False)
     # If debug is set to true, another timeloop instance is started for some reason
     app.run(host='0.0.0.0', debug=False)
