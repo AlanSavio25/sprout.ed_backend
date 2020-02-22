@@ -17,9 +17,13 @@
                 <h4>Overview</h4>
                 <p>You are currently growing 6 plants.</p>
                 <p>Click on a plant to view its information.</p>
+                <a class="button" id="view_image_button" onclick="toggle_image()">View plants</a>
             </div>
         </div>
-        <div class="quotes">
+        <div id="image_viewer">
+            <img id="plant_photo" src="/static/example_plant.jpg" alt="sprouted logo"/>
+        </div>
+        <div id="quotes">
             <h3>"Even if I knew that tomorrow the world would go to pieces, I would still plant my apple tree."</h3>
             <h4>Martin Luther</h4>
         </div>
@@ -27,4 +31,20 @@
             <p>© 2020 sprout.ed - contact us at <a href="mailto:sprouted04@gmail.com">sprouted04@gmail.com</a></p>
         </footer>
     </body>
+    <script>
+        function toggle_image() {
+            const image_div = document.querySelector('#image_viewer');
+            const style = getComputedStyle(image_div);
+            const quote_div = document.querySelector('#quotes');
+            if (style.display == "none") {
+                image_div.style.display="block";
+                quote_div.style.display="none";
+                document.getElementById("view_image_button").innerHTML = "Close image";
+            } else {
+                image_div.style.display="none";
+                quote_div.style.display="block";
+                document.getElementById("view_image_button").innerHTML = "View plants";
+            }
+         }
+    </script>
 </html>
