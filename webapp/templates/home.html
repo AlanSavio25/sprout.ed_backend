@@ -39,9 +39,20 @@
             const style = getComputedStyle(image_div);
             const quote_div = document.querySelector('#quotes');
             if (style.display == "none") {
-                image_div.style.display="block";
-                quote_div.style.display="none";
-                document.getElementById("view_image_button").innerHTML = "Close image";
+		document.getElementById("view_image_button").innerHTML = "loading...";
+		fetch('./image').then(()=>{
+			var element = document.getElementById("plant_photo");
+			element.parentNode.removeChild(element);
+			var parent = document.getElementById("image_viewer");
+			var new_element = document.createElement("img");
+			new_element.setAttribute("id", "plant_photo");
+			new_element.setAttribute("alt", "plant");
+			new_element.setAttribute("src", `\\static\\plant.jpg?d=${Date.now()}`);
+			parent.appendChild(new_element);
+	                image_div.style.display="block";
+        	        quote_div.style.display="none";
+                	document.getElementById("view_image_button").innerHTML = "Close image";
+		});
             } else {
                 image_div.style.display="none";
                 quote_div.style.display="block";

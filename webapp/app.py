@@ -47,7 +47,7 @@ def sensor_reading():
 def image():
     photo.clickPhoto()
     time.sleep(1)
-    return render_template('image.html')
+    return
 
 @tl.job(interval=timedelta(seconds=60))
 def sample_job_every_60s():
