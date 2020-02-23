@@ -39,7 +39,7 @@
     function fetch_sensors(){
       fetch('./sensors').then((resp)=>{return resp.json();}).then((myJson)=>{
         console.log(myJson)
-        document.getElementById('sensed').innerHTML = JSON.stringify(myJson);
+        document.getElementById('sensed').innerHTML = myJson
       })
     }
     function show_sensor(){
