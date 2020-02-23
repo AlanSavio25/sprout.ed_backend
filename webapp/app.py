@@ -3,8 +3,8 @@ import sys
 sys.path.insert(1, '../grove.py/grove/')
 from flask import Flask, render_template, jsonify
 import client
-#import grove_moisture_sensor as grove
-#import photo
+import grove_moisture_sensor as grove
+import photo
 import time
 from timeloop import Timeloop
 from datetime import timedelta
@@ -22,7 +22,7 @@ def admin():
 
 @app.route('/overrides')
 def overrides():
-    return render_template('overrides.html', sensor_reading="Please Click Button")
+    return render_template('overrides.html', sensor_reading="Click to view current sensor readings")
 
 @app.route('/move<direction>')
 #update direction to be 23 for (2,3)
@@ -34,7 +34,7 @@ def move(direction):
     else:
         message = direction
     client.initClient(message)
-    return render_template('overrides.html', sensor_reading="Please Click Button")
+    return render_template('overrides.html', sensor_reading="Click to view current sensor readings")
 
 @app.route('/sensors')
 def sensor_reading():
