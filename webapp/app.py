@@ -3,8 +3,8 @@ import sys
 sys.path.insert(1, '../grove.py/grove/')
 from flask import Flask, render_template, jsonify
 import client
-import grove_moisture_sensor as grove
-import photo
+#import grove_moisture_sensor as grove
+#import photo
 import time
 from timeloop import Timeloop
 from datetime import timedelta
@@ -40,7 +40,7 @@ def move(direction):
 def sensor_reading():
     return jsonify(grove.sensor_readings())
 #return render_template('overrides.html', sensor_reading=grove.sensor_readings())
-    
+
 #return render_template('overrides.html', sensor_reading="Soil Moisture: 327, Temperature: 22C")
 
 @app.route('/image')

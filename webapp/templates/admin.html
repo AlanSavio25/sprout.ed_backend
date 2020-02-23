@@ -4,6 +4,7 @@
         <title>sprout.ed - Admin</title>
         <link rel="stylesheet" href="/static/style.css" />
         <link rel="shortcut icon" type="image/png" href="/static/favicon.png"/>
+        <script src="/static/Chart.bundle.js"></script>
     </head>
     <body>
         <header>
@@ -21,8 +22,145 @@
                 <p>Click on a plus to add a new plant.</p>
             </div>
         </div>
+        <div class= "graphs">
+          <div class ="graph_cont">
+            <canvas id="temp" width="450px" height="300px" display="inline"></canvas>
+          </div>
+          <div class ="graph_cont">
+            <canvas id="humidity" width="450px" height="300px" display="inline"></canvas>
+          </div>
+          <div class ="graph_cont">
+            <div><canvas id="m1c" width="450px" height="300px"></canvas></div>
+          </div>
+          <div class ="graph_cont">
+            <div><canvas id="m2c" width="450px" height="300px"></canvas></div>
+          </div>
+        </div>
+
         <footer>
             <p>© 2020 sprout.ed - contact us at <a href="mailto:sprouted04@gmail.com">sprouted04@gmail.com</a></p>
         </footer>
+        <script>
+          Chart.defaults.global.responsive = false
+          Chart.defaults.global.legend.display = false;
+
+          offset = 1
+          tempReadings = [0];
+          humidReadings = [0];
+          m1Readings = [0];
+          m2Readings = [0];
+          timeL = ['t-0'];
+
+          var a;
+          function addData(preserve){
+            if(tempReadings.length >= 100){
+              preserve = false;
+            }
+            if (!preserve){
+              timeL.push(`t+${offset+=1}`)
+            } else {
+              tempReadings.shift();
+              humidReadings.shift();
+            }
+
+            fetch('./sensors').then((resp)=>{return resp.json();}).then((myJson)=>{
+              a = myJson;
+              tempReadings.push((a.temp > 0)? a.temp:tempReadings[tempReadings.length-1])
+              humidReadings.push((a.humidity > 0)? a.humidity:humidReadings[humidReadings.length-1])
+              // m1Readings.push((a.m1 > 0)? a.m1:m1Readings[m1Readings.length-1])
+              // m2Readings.push((a.m2 > 0)? a.m2:m2Readings[m2Readings.length-1])
+
+              m1Readings.push(a.m1);
+              m2Readings.push(a.m2);
+
+              // humidReadings.push(a.humidity)
+              humidChart.update();
+              tempChart.update();
+              m1Chart.update();
+              m2Chart.update();
+            });
+
+            // tempReadings.push(Math.floor((Math.random() * 20) + 1))
+            // humidReadings.push(Math.random())
+          }
+
+
+
+          // janky for now but not forever
+          var tempChart = new Chart(document.getElementById('temp').getContext('2d'), {
+              type: 'line',
+              data: {
+                  labels: timeL,
+                  datasets:[{
+                    label: "temp",
+                    data:  tempReadings,
+                    borderColor: "#ffa500"
+                  }]
+              },
+              options: {
+                  title: {
+                   display: true,
+                   text: 'Temperature Readings'
+                  }
+              }
+          });
+
+          var humidChart = new Chart(document.getElementById('humidity').getContext('2d'), {
+              type: 'line',
+              data: {
+                  labels: timeL,
+                  datasets:[{
+                    label: "humidity",
+                    data:  humidReadings,
+                    borderColor: "#0000ff"
+                  }]
+              },
+              options: {
+                  title: {
+                   display: true,
+                   text: 'Humidity Readings'
+                  }
+              }
+          });
+          var m1Chart = new Chart(document.getElementById('m1c').getContext('2d'), {
+              type: 'line',
+              data: {
+                  labels: timeL,
+                  datasets:[{
+                    label: "m1",
+                    data:  m1Readings,
+                    borderColor: "#ffa500"
+                  }]
+              },
+              options: {
+                  title: {
+                   display: true,
+                   text: 'm1 Readings'
+                  }
+              }
+          });
+
+          var m2Chart = new Chart(document.getElementById('m2c').getContext('2d'), {
+              type: 'line',
+              data: {
+                  labels: timeL,
+                  datasets:[{
+                    label: "m2",
+                    data:  m2Readings,
+                    borderColor: "#0000ff"
+                  }]
+              },
+              options: {
+                  title: {
+                   display: true,
+                   text: 'M2 Readings'
+                  }
+              }
+          });
+
+
+
+          setInterval(addData, 1500)
+        </script>
     </body>
 </html>
