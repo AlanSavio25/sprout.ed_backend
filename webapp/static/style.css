@@ -128,3 +128,20 @@ header {
 .overrides{
     margin: 20px;
 }
+
+input[type=range][orient=vertical]
+{
+    writing-mode: bt-lr; /* IE */
+    -webkit-appearance: slider-vertical; /* WebKit */
+    width: 8px;
+    height: 175px;
+    padding: 0 5px;
+}
+
+#x{
+  vertical-align: top;
+}
+
+#y{
+  margin-top: 20px;
+}

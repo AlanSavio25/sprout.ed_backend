@@ -24,6 +24,15 @@
       <!--<button class="button" type="button">Grab data</button>-->
       <!--<div id="sensed"> No data </div>-->
       <p id="sensed">{{sensor_reading}}</p>
+      <div style="background-color: #4D3006; display:inline-block;">
+        <input type="range" orient="vertical" id="y" min="0" max="20" onchange="updateMoveText()"/>
+        <input type="range" id="x" min="0" max="10" onchange="updateMoveText()"/>
+      </div>
+      <br>
+      <br>
+
+      <a class="button" onclick="sendMoveCommand()" id ="moveTo">Move</a>
+
     </div>
     <footer>
             <p>© 2020 sprout.ed - contact us at <a href="mailto:sprouted04@gmail.com">sprouted04@gmail.com</a></p>
@@ -45,6 +54,19 @@
     function show_sensor(){
         console.log(sensor_reading)
         //document.getElementById('sensed').innerHTML = {{sensor_reading}}
+    }
+
+    function updateMoveText() {
+      x = document.getElementById("x").value;
+      y = document.getElementById("y").value;
+      document.getElementById("moveTo").innerHTML = `Move to ${x}, ${y}`
+    }
+
+    function sendMoveCommand(){
+      x = document.getElementById("x").value;
+      y = document.getElementById("y").value;
+      fetch(`./move${x}${y}`);
+      console.log(`sending request to ./move${x}${y}`);
     }
     </script>
   </body>
