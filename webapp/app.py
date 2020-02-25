@@ -16,29 +16,6 @@ app = Flask(__name__, static_url_path='/static')
 def home():
     return render_template('home.html')
 
-@app.route("/addplant" , methods=["POST"])
-def getdata():
-    name = request.form['plantname']
-    id = request.form['plantid']
-    datewatered = request.form['waterdate']
- 
-    x = {
-    "plantname": name,
-    "plantid": id,
-    "waterdate": datewatered
-    }
-    
-    y = json.dumps(x)
- 
-    
-    with open("plant.txt","a+") as plantfile:
-        plantfile.write(y)
-
-    with open('plant.txt', 'r') as file:
-        content = file.read().replace ('}', '}\n') 
-    return render_template("plantdisplay.html", content=content)  
-    
-
 @app.route('/admin')
 def admin():
     return render_template('admin.html')

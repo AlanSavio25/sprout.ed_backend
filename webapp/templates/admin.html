@@ -54,18 +54,21 @@
           timeL = ['t-0'];
 
           var a;
-          function addData(preserve){
+          function addData(forget){
             if(tempReadings.length >= 100){
-              preserve = false;
-            }
-            if (!preserve){
-              timeL.push(`t+${offset+=1}`)
-            } else {
-              tempReadings.shift();
-              humidReadings.shift();
+              forget = true;
             }
 
             fetch('./sensors').then((resp)=>{return resp.json();}).then((myJson)=>{
+              if (!forget){
+                timeL.push(`t+${offset+=1}`)
+              } else {
+                tempReadings.shift();
+                humidReadings.shift();
+                m1Readings.shift();
+                m2Readings.shift();
+              }
+              
               a = myJson;
               tempReadings.push((a.temp > 0)? a.temp:tempReadings[tempReadings.length-1])
               humidReadings.push((a.humidity > 0)? a.humidity:humidReadings[humidReadings.length-1])
