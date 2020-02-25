@@ -12,10 +12,54 @@ tl = Timeloop()
 
 app = Flask(__name__, static_url_path='/static')
 
-@app.route("/addplant")
-def addplant():
-    return render_template("addplant.html")
+@app.route("/addthis" , methods = ['POST'])
+def addtojson():
+    name = request.form['plantname']
+    id = request.form['plantid']
+    waterdate = request.form['waterdate']
 
+    with open("plant.json") as plantfile:
+        plantdata = json.load(plantfile)
+     
+
+    with open('plant.json', 'w') as pfile:
+        plantdata['plants'].append({
+            'plantname': name,
+            'plantid': id,
+            'waterdate': waterdate
+        })
+        json.dump(plantdata, pfile , indent=2)
+       
+    
+    with open('plant.json', 'r') as pfile:
+        content = pfile.read()
+
+    return render_template("plantdisplay.html", content=content)
+
+
+@app.route("/removethis" , methods = ['POST'])
+def removeFromJson():
+    removalid = request.form['removeid']
+    
+    with open('plant.json', 'r') as pfile:
+        content = json.load(pfile)
+    
+    for plant in content['plants']:
+        if (plant['plantid'] == str(removalid)):
+            content['plants'].remove(plant)
+    
+    
+    with open('plant.json', 'w') as pfile:
+        json.dump(content, pfile , indent=2)
+        
+    with open('plant.json', 'w') as pfile:
+        json.dump(content, pfile , indent=2)
+
+    with open('plant.json', 'r') as pfile:
+        content = pfile.read()
+    return render_template("plantdisplay.html", content=content)
+
+    
 
 @app.route("/removeplant")
 def plant():
@@ -50,30 +94,9 @@ def getdata():
 
     return render_template("plantdisplay.html", content=content)
 
-
-@app.route("/removeplant" , methods = ['GET','POST'])
-
-def removeplant():
-    removalid = request.form['removeid']
-
-
-    with open('plant.json', 'r') as pfile:
-        content = json.load(pfile)
-
-
-    for plant in content['plants']:
-        if (plant['plantid'] == str(removalid)):
-            content['plants'].remove(plant)
-
-
-    with open('plant.json', 'w') as pfile:
-        json.dump(content, pfile , indent=2)
-
-    with open('plant.json', 'r') as pfile:
-        content = pfile.read()
-
-    return render_template("plantdisplay.html", content=content)
-
+@app.route("/addplant")
+def addplant():
+    return render_template("addplant.html")
 
 
 
