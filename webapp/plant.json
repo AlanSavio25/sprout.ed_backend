@@ -1,54 +1,14 @@
 {
   "plants": [
     {
-      "plantname": "test3",
-      "plantid": "3",
-      "waterdate": "2020-02-03"
-    },
-    {
-      "plantname": "test3",
-      "plantid": "3",
-      "waterdate": "2020-02-03"
-    },
-    {
-      "plantname": "test4",
-      "plantid": "4",
-      "waterdate": "2020-02-25"
-    },
-    {
-      "plantname": "test1",
+      "plantname": "Matilda",
       "plantid": "1",
-      "waterdate": "2020-02-02"
+      "waterdate": "2020-02-27"
     },
     {
-      "plantname": "test1",
-      "plantid": "1",
-      "waterdate": "2020-02-02"
-    },
-    {
-      "plantname": "test1",
-      "plantid": "1",
-      "waterdate": "2020-02-02"
-    },
-    {
-      "plantname": "test",
-      "plantid": "423",
-      "waterdate": "2020-02-05"
-    },
-    {
-      "plantname": "test",
-      "plantid": "324",
-      "waterdate": "2020-01-30"
-    },
-    {
-      "plantname": "test",
-      "plantid": "324",
-      "waterdate": "2020-01-30"
-    },
-    {
-      "plantname": "test2",
-      "plantid": "324",
-      "waterdate": "2020-02-12"
+      "plantname": "Basil",
+      "plantid": "2",
+      "waterdate": "2020-01-16"
     }
   ]
 }
