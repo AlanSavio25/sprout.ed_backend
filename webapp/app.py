@@ -12,32 +12,68 @@ tl = Timeloop()
 
 app = Flask(__name__, static_url_path='/static')
 
+@app.route("/addplant")
+def addplant():
+    return render_template("addplant.html")
+
+
+@app.route("/removeplant")
+def plant():
+    return render_template("removeplant.html")
+
+
 @app.route('/')
 def home():
     return render_template('home.html')
 
-
-@app.route("/addplant" , methods=["POST"])
 def getdata():
+
     name = request.form['plantname']
     id = request.form['plantid']
-    datewatered = request.form['waterdate']
+    waterdate = request.form['waterdate']
 
-    x = {
-    "plantname": name,
-    "plantid": id,
-    "waterdate": datewatered
-    }
-
-    y = json.dumps(x)
+    with open("plant.json") as plantfile:
+        plantdata = json.load(plantfile)
 
 
-    with open("plant.txt","a+") as plantfile:
-        plantfile.write(y)
+    with open('plant.json', 'w') as pfile:
+        plantdata['plants'].append({
+            'plantname': name,
+            'plantid': id,
+            'waterdate': waterdate
+        })
+        json.dump(plantdata, pfile , indent=2)
 
-    with open('plant.txt', 'r') as file:
-        content = file.read().replace ('}', '}\n')
+
+    with open('plant.json', 'r') as pfile:
+        content = pfile.read()
+
     return render_template("plantdisplay.html", content=content)
+
+
+@app.route("/removeplant" , methods = ['GET','POST'])
+
+def removeplant():
+    removalid = request.form['removeid']
+
+
+    with open('plant.json', 'r') as pfile:
+        content = json.load(pfile)
+
+
+    for plant in content['plants']:
+        if (plant['plantid'] == str(removalid)):
+            content['plants'].remove(plant)
+
+
+    with open('plant.json', 'w') as pfile:
+        json.dump(content, pfile , indent=2)
+
+    with open('plant.json', 'r') as pfile:
+        content = pfile.read()
+
+    return render_template("plantdisplay.html", content=content)
+
 
 
 
