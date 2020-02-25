@@ -1,4 +1,5 @@
 import sys
+from flask import request
 # insert at 1, 0 is the script path (or '' in REPL)
 sys.path.insert(1, '../grove.py/grove/')
 from flask import Flask, render_template, jsonify, request
@@ -21,7 +22,7 @@ def addtojson():
 
     with open("plant.json") as plantfile:
         plantdata = json.load(plantfile)
-     
+
 
     with open('plant.json', 'w') as pfile:
         plantdata['plants'].append({
@@ -30,8 +31,8 @@ def addtojson():
             'waterdate': waterdate
         })
         json.dump(plantdata, pfile , indent=2)
-       
-    
+
+
     with open('plant.json', 'r') as pfile:
         content = pfile.read()
 
@@ -41,18 +42,18 @@ def addtojson():
 @app.route("/removethis" , methods = ['POST'])
 def removeFromJson():
     removalid = request.form['removeid']
-    
+
     with open('plant.json', 'r') as pfile:
         content = json.load(pfile)
-    
+
     for plant in content['plants']:
         if (plant['plantid'] == str(removalid)):
             content['plants'].remove(plant)
-    
-    
+
+
     with open('plant.json', 'w') as pfile:
         json.dump(content, pfile , indent=2)
-        
+
     with open('plant.json', 'w') as pfile:
         json.dump(content, pfile , indent=2)
 
@@ -60,7 +61,7 @@ def removeFromJson():
         content = pfile.read()
     return render_template("plantdisplay.html", content=content)
 
-    
+
 
 @app.route("/removeplant")
 def plant():
@@ -109,17 +110,19 @@ def admin():
 def overrides():
     return render_template('overrides.html', sensor_reading="Click to view current sensor readings")
 
-@app.route('/move<direction>')
+@app.route('/move')
 #update direction to be 23 for (2,3)
-def move(direction):
-    if (direction == 'forward'):
-        message = "Move Motors"
-    elif (direction == 'backward'):
-        message="Move Motors Backward"
+def move():
+    if (request.args.get('direction', default = 'none', type = str) == 'forward'):
+        message = "f"
+    elif (request.args.get('direction', default = 'forward', type = str) == 'backward'):
+        message="b"
     else:
-        message = direction
+        message = request.args.get('x', default = '1', type= str) +','+ request.args.get('y', default = '1', type = str)
+    print("Message is: " + message)
     client.initClient(message)
     return render_template('overrides.html', sensor_reading="Click to view current sensor readings")
+
 
 @app.route('/sensors')
 def sensor_reading():
