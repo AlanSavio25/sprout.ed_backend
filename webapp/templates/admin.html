@@ -32,9 +32,6 @@
             <canvas id="humidity" width="450px" height="300px" display="inline"></canvas>
           </div>
           <div class ="graph_cont">
-            <div><canvas id="m1c" width="450px" height="300px"></canvas></div>
-          </div>
-          <div class ="graph_cont">
             <div><canvas id="m2c" width="450px" height="300px"></canvas></div>
           </div>
         </div>
@@ -65,23 +62,20 @@
               } else {
                 tempReadings.shift();
                 humidReadings.shift();
-                m1Readings.shift();
                 m2Readings.shift();
               }
-              
+
               a = myJson;
               tempReadings.push((a.temp > 0)? a.temp:tempReadings[tempReadings.length-1])
               humidReadings.push((a.humidity > 0)? a.humidity:humidReadings[humidReadings.length-1])
               // m1Readings.push((a.m1 > 0)? a.m1:m1Readings[m1Readings.length-1])
               // m2Readings.push((a.m2 > 0)? a.m2:m2Readings[m2Readings.length-1])
 
-              m1Readings.push(a.m1);
               m2Readings.push(a.m2);
 
               // humidReadings.push(a.humidity)
               humidChart.update();
               tempChart.update();
-              m1Chart.update();
               m2Chart.update();
             });
 
@@ -127,23 +121,6 @@
                   }
               }
           });
-          var m1Chart = new Chart(document.getElementById('m1c').getContext('2d'), {
-              type: 'line',
-              data: {
-                  labels: timeL,
-                  datasets:[{
-                    label: "m1",
-                    data:  m1Readings,
-                    borderColor: "#ffa500"
-                  }]
-              },
-              options: {
-                  title: {
-                   display: true,
-                   text: 'm1 Readings'
-                  }
-              }
-          });
 
           var m2Chart = new Chart(document.getElementById('m2c').getContext('2d'), {
               type: 'line',
@@ -158,7 +135,7 @@
               options: {
                   title: {
                    display: true,
-                   text: 'M2 Readings'
+                   text: 'M1 Readings'
                   }
               }
           });
