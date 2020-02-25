@@ -1,8 +1,9 @@
 import sys
 # insert at 1, 0 is the script path (or '' in REPL)
 sys.path.insert(1, '../grove.py/grove/')
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import client
+import json
 import grove_moisture_sensor as grove
 import photo
 import time
