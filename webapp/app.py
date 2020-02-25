@@ -23,19 +23,19 @@ def getdata():
     id = request.form['plantid']
     datewatered = request.form['waterdate']
 
-     x = {
+    x = {
     "plantname": name,
     "plantid": id,
     "waterdate": datewatered
     }
 
-     y = json.dumps(x)
+    y = json.dumps(x)
 
 
-     with open("plant.txt","a+") as plantfile:
+    with open("plant.txt","a+") as plantfile:
         plantfile.write(y)
 
-     with open('plant.txt', 'r') as file:
+    with open('plant.txt', 'r') as file:
         content = file.read().replace ('}', '}\n')
     return render_template("plantdisplay.html", content=content)
 
