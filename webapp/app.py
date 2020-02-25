@@ -1,4 +1,5 @@
 import sys
+from flask import request
 # insert at 1, 0 is the script path (or '' in REPL)
 sys.path.insert(1, '../grove.py/grove/')
 from flask import Flask, render_template, jsonify
@@ -23,19 +24,19 @@ def getdata():
     id = request.form['plantid']
     datewatered = request.form['waterdate']
 
-     x = {
+    x = {
     "plantname": name,
     "plantid": id,
     "waterdate": datewatered
     }
 
-     y = json.dumps(x)
+    y = json.dumps(x)
 
 
-     with open("plant.txt","a+") as plantfile:
+    with open("plant.txt","a+") as plantfile:
         plantfile.write(y)
 
-     with open('plant.txt', 'r') as file:
+    with open('plant.txt', 'r') as file:
         content = file.read().replace ('}', '}\n')
     return render_template("plantdisplay.html", content=content)
 
@@ -49,17 +50,19 @@ def admin():
 def overrides():
     return render_template('overrides.html', sensor_reading="Click to view current sensor readings")
 
-@app.route('/move<direction>')
+@app.route('/move')
 #update direction to be 23 for (2,3)
-def move(direction):
-    if (direction == 'forward'):
-        message = "Move Motors"
-    elif (direction == 'backward'):
-        message="Move Motors Backward"
+def move():
+    if (request.args.get('direction', default = 'none', type = str) == 'forward'):
+        message = "f"
+    elif (request.args.get('direction', default = 'forward', type = str) == 'backward'):
+        message="b"
     else:
-        message = direction
+        message = request.args.get('x', default = '1', type= str) +','+ request.args.get('y', default = '1', type = str)
+    print("Message is: " + message)
     client.initClient(message)
     return render_template('overrides.html', sensor_reading="Click to view current sensor readings")
+
 
 @app.route('/sensors')
 def sensor_reading():

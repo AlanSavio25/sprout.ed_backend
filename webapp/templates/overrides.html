@@ -65,8 +65,8 @@
     function sendMoveCommand(){
       x = document.getElementById("x").value;
       y = document.getElementById("y").value;
-      fetch(`./move${x}${y}`);
-      console.log(`sending request to ./move${x}${y}`);
+      fetch(`./move?x=${x}&y=${y}`);
+      console.log(`sending request to ./move?x=${x}&y=${y}`);
     }
     </script>
   </body>

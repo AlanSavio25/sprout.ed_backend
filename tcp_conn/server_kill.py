@@ -34,7 +34,7 @@ def client_thread(conn):
         data = conn.recv(1024)
         if not data:
             break
-        reply = "OK . . " + data
+        reply = "OK " + data
         conn.sendall(reply)
         for c in all_clients:
             try:
