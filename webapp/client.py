@@ -36,7 +36,7 @@ def initClient(message):
    client = TCPClient(server_ip, server_port, stateChanged=onStateChanged)
    print("Temporary Client initialized")
 
-   message2 = "Message 2"
+   message2 = "Dummy Message"
    try:
        while True:
            rc = client.connect()

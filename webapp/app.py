@@ -123,6 +123,16 @@ def move():
     client.initClient(message)
     return render_template('overrides.html', sensor_reading="Click to view current sensor readings")
 
+@app.route('/waterornot')
+def water_the_plant():
+    #this method is called by the ev3 when the arm is in the soil
+    result = grove.sensor_readings()
+    print(result)
+    print(type(result))
+    moisture = result['m2']
+    print("Moisture for EV3 is:" + str(moisture))
+    return str(moisture<600)
+
 
 @app.route('/sensors')
 def sensor_reading():
