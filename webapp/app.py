@@ -103,7 +103,9 @@ def getdata():
 def addplant():
     return render_template("addplant.html")
 
-
+@app.route("/getPlots")
+def getPlots():
+    return "plots.json"
 
 @app.route('/admin')
 def admin():
@@ -139,7 +141,10 @@ def water_the_plant():
 
 @app.route('/gridReact')
 def gridding():
-    return render_template('grid2.html')
+    with open('plots.json', 'r') as f:
+        content = f.read()
+    content = content.replace('\n', ' ').replace('\r', '')
+    return render_template('grid2.html', plotsJson = content)
 
 
 @app.route('/sensors')

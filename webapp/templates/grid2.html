@@ -3,4 +3,10 @@
 <script src="/static/react/JSXTransformer.js"></script>
 <link rel="stylesheet" href="/static/plants.css" />
 <div id="root"></div>
-<script  type="text/jsx" src="/static/grid2.js"></script>
+
+<script>
+  var plotsJson = JSON.parse('{{ plotsJson| safe }}');
+</script>
+
+<script  type="text/jsx" src="/static/grid2.js">
+</script>
