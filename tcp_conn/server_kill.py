@@ -39,6 +39,7 @@ def client_thread(conn):
         for c in all_clients:
             try:
                 c.sendall(reply)
+                print("Message sent: " + reply)
             except:
                 print("Client Message not sent. The following client is dead: ")
                 print(c)
