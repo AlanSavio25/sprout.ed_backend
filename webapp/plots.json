@@ -31,21 +31,21 @@
       "plot": "78",
       "plantType": "🎋",
       "waterdate": "2020-02-27",
-      "size": 1
+      "size": 2
 
     },
     {
       "plot": "100",
       "plantType": "☘️",
       "waterdate": "2020-02-27",
-      "size": 1
+      "size": 0
 
     },
     {
       "plot": "99",
       "plantType": "🌱",
       "waterdate": "2020-02-27",
-      "size": 1
+      "size": 0
 
     }
   ]

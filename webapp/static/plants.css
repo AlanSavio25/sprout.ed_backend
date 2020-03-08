@@ -9,8 +9,8 @@
 }
 
 .plot {
-  background: #fff;
-  border: 1px solid #4949493a;
+  background: #8e2828cc;
+  border: 1px solid #fff5;
   float: left;
   font-size: 24px;
   font-weight: bold;
@@ -21,6 +21,10 @@
   padding: 0;
   text-align: center;
   width: 34px;
+}
+
+.plantable {
+  background: #96501ee3;
 }
 
 .plot:focus {
