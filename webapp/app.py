@@ -5,14 +5,17 @@ sys.path.insert(1, '../grove.py/grove/')
 from flask import Flask, render_template, jsonify, request
 import client
 import json
-import grove_moisture_sensor as grove
-import photo
 import time
 from timeloop import Timeloop
 from datetime import timedelta
 tl = Timeloop()
 
 app = Flask(__name__, static_url_path='/static')
+
+raspPi = False
+if (raspPi):
+    import grove_moisture_sensor as grove
+    import photo
 
 @app.route("/addthis" , methods = ['POST'])
 def addtojson():
@@ -124,12 +127,21 @@ def move():
     return render_template('overrides.html', sensor_reading="Click to view current sensor readings")
 
 
+@app.route('/gridReact')
+def gridding():
+    return render_template('grid2.html')
+
+
 @app.route('/sensors')
 def sensor_reading():
-    return jsonify(grove.sensor_readings())
+    if (raspPi):
+        return jsonify(grove.sensor_readings())
+    return ""
 #return render_template('overrides.html', sensor_reading=grove.sensor_readings())
 
 #return render_template('overrides.html', sensor_reading="Soil Moisture: 327, Temperature: 22C")
+
+
 
 @app.route('/image')
 def image():
