@@ -49,10 +49,9 @@ def addtojson():
 
     with open('./templates/actions.json', 'w') as actions_file:
         actions_data['actions'].insert(0,{
-            'timestamp': '09-03-2020',
+            'timestamp': time.asctime(),
             'action' : 'Added plant id ' + id
         })
-        print(actions_data)
         json.dump(actions_data, actions_file , indent=2)
 
     return render_template("plantdisplay.html", content=content)
@@ -69,15 +68,23 @@ def removeFromJson():
         if (plant['plantid'] == str(removalid)):
             content['plants'].remove(plant)
 
-
-    with open('plant.json', 'w') as pfile:
-        json.dump(content, pfile , indent=2)
-
     with open('plant.json', 'w') as pfile:
         json.dump(content, pfile , indent=2)
 
     with open('plant.json', 'r') as pfile:
         content = pfile.read()
+
+    # add to action log
+    with open("./templates/actions.json") as actions_file:
+        actions_data = json.load(actions_file)
+
+    with open('./templates/actions.json', 'w') as actions_file:
+        actions_data['actions'].insert(0,{
+            'timestamp': time.asctime(),
+            'action' : 'Removed plant id ' + removalid
+        })
+        json.dump(actions_data, actions_file , indent=2)
+
     return render_template("plantdisplay.html", content=content)
 
 
@@ -142,6 +149,18 @@ def move():
         message = request.args.get('x', default = '1', type= str) +','+ request.args.get('y', default = '1', type = str)
     print("Message is: " + message)
     client.initClient(message)
+
+    # add to action log
+    with open("./templates/actions.json") as actions_file:
+        actions_data = json.load(actions_file)
+
+    with open('./templates/actions.json', 'w') as actions_file:
+        actions_data['actions'].insert(0,{
+            'timestamp': time.asctime(),
+            'action' : 'Moved to position ' + message
+        })
+        json.dump(actions_data, actions_file , indent=2)
+
     return render_template('overrides.html', sensor_reading="Click to view current sensor readings")
 
 @app.route('/waterornot')
@@ -168,10 +187,6 @@ def sensor_reading():
     if (raspPi):
         return jsonify(grove.sensor_readings())
     return ""
-#return render_template('overrides.html', sensor_reading=grove.sensor_readings())
-
-#return render_template('overrides.html', sensor_reading="Soil Moisture: 327, Temperature: 22C")
-
 
 
 @app.route('/image')

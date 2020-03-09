@@ -1,104 +1,32 @@
 {
   "actions": [
     {
-      "timestamp": "09-03-2020",
-      "action": "Added plant id 10"
+      "timestamp": "Mon Mar  9 22:21:18 2020",
+      "action": "Removed plant id 10"
     },
     {
-      "timestamp": "09-03-2020",
-      "action": "Added plant id 9999999"
+      "timestamp": "Mon Mar  9 22:21:12 2020",
+      "action": "Removed plant id 11111"
     },
     {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (2,3)"
+      "timestamp": "Mon Mar  9 22:21:03 2020",
+      "action": "Removed plant id 11111"
     },
     {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (2,4)"
+      "timestamp": "Mon Mar  9 22:17:53 2020",
+      "action": "Moved to position 9,6"
     },
     {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (3,4)"
+      "timestamp": "Mon Mar  9 22:17:50 2020",
+      "action": "Moved to position 5,6"
     },
     {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (2,5)"
+      "timestamp": "Mon Mar  9 22:17:38 2020",
+      "action": "Removed plant id 4"
     },
     {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (5,5)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (3,4)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (2,5)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (5,5)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (3,4)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (2,5)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (5,5)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (3,4)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (2,5)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (5,5)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (3,4)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (2,5)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (5,5)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (3,4)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (2,5)"
-    },
-    {
-      "timestamp": "03-03-2020",
-      "action": "Move gantry to (5,5)"
-    },
-    {
-      "timestamp": "09-03-2020",
-      "action": "Added plant id 27"
-    },
-    {
-      "timestamp": "09-03-2020",
-      "action": "Added plant id 30"
-    },
-    {
-      "timestamp": "09-03-2020",
-      "action": "Added plant id 22"
+      "timestamp": "Mon Mar  9 22:16:17 2020",
+      "action": "Added plant id 4"
     }
   ]
 }
