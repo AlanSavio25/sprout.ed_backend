@@ -1,0 +1,37 @@
+.plant-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.status {
+  margin-bottom: 10px;
+}
+
+.plot {
+  background: #8e2828cc;
+  border: 1px solid #fff5;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
+
+.plantable {
+  background: #96501ee3;
+}
+
+.plot:focus {
+  outline: none;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+}

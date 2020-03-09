@@ -5,12 +5,15 @@ sys.path.insert(1, '../grove.py/grove/')
 from flask import Flask, render_template, jsonify, request
 import client
 import json
-import grove_moisture_sensor as grove
-import photo
 import time
 from timeloop import Timeloop
 from datetime import timedelta
 tl = Timeloop()
+
+raspPi = False
+if (raspPi):
+    import grove_moisture_sensor as grove
+    import photo
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -41,10 +44,10 @@ def addtojson():
         content = pfile.read()
 
     # add to action log
-    with open(".\\templates\\actions.json") as actions_file:
+    with open("./templates/actions.json") as actions_file:
         actions_data = json.load(actions_file)
 
-    with open('.\\templates\\actions.json', 'w') as actions_file:
+    with open('./templates/actions.json', 'w') as actions_file:
         actions_data['actions'].insert(0,{
             'timestamp': '09-03-2020',
             'action' : 'Added plant id ' + id
@@ -116,7 +119,9 @@ def getdata():
 def addplant():
     return render_template("addplant.html")
 
-
+@app.route("/getPlots")
+def getPlots():
+    return "plots.json"
 
 @app.route('/admin')
 def admin():
@@ -150,12 +155,24 @@ def water_the_plant():
     return str(moisture<600)
 
 
+@app.route('/gridReact')
+def gridding():
+    with open('plots.json', 'r') as f:
+        content = f.read()
+    content = content.replace('\n', ' ').replace('\r', '')
+    return render_template('grid2.html', plotsJson = content)
+
+
 @app.route('/sensors')
 def sensor_reading():
-    return jsonify(grove.sensor_readings())
+    if (raspPi):
+        return jsonify(grove.sensor_readings())
+    return ""
 #return render_template('overrides.html', sensor_reading=grove.sensor_readings())
 
 #return render_template('overrides.html', sensor_reading="Soil Moisture: 327, Temperature: 22C")
+
+
 
 @app.route('/image')
 def image():

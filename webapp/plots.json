@@ -1,0 +1,52 @@
+{
+  "plants": [
+    {
+      "plot": "0",
+      "plantType": "🌷",
+      "waterdate": "2020-02-27",
+      "size": 1
+    },
+    {
+      "plot": "10",
+      "plantType": "🌹",
+      "waterdate": "2020-02-27",
+      "size": 1
+
+    },
+    {
+      "plot": "12",
+      "plantType": "🌼",
+      "waterdate": "2020-02-27",
+      "size": 1
+
+    },
+    {
+      "plot": "53",
+      "plantType": "🍄",
+      "waterdate": "2020-02-27",
+      "size": 1
+
+    },
+    {
+      "plot": "78",
+      "plantType": "🎋",
+      "waterdate": "2020-02-27",
+      "size": 2
+
+    },
+    {
+      "plot": "100",
+      "plantType": "☘️",
+      "waterdate": "2020-02-27",
+      "size": 0
+
+    },
+    {
+      "plot": "99",
+      "plantType": "🌱",
+      "waterdate": "2020-02-27",
+      "size": 0
+
+    }
+  ]
+}
