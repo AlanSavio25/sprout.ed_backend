@@ -5,6 +5,9 @@
         <link rel="stylesheet" href="/static/style.css" />
         <link rel="shortcut icon" type="image/png" href="/static/favicon.png"/>
         <script src="/static/Chart.bundle.js"></script>
+        <script type="text/javascript" src="/static/jquery-3.4.1.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/DataTables/datatables.min.css"/>
+        <script type="text/javascript" src="/static/DataTables/datatables.min.js"></script>
     </head>
     <body>
         <header>
@@ -24,6 +27,29 @@
                 <p>Click on a plus to add a new plant.</p>
             </div>
         </div>
+
+        <div id="action_log">
+          <table id="action_table"></table>
+        </div>
+
+        <script type="text/javascript">
+          $('#action_table').DataTable( {
+              // scrollY: 400,
+              // paging: false,
+              // searching: false,
+              //ordering: false,
+              //stateSave : true,
+              ajax: {
+                  url: '/actions.json',
+                  dataSrc: 'actions'
+              },
+              columns: [
+                { data: 'timestamp', title : 'Timestamp' },
+                { data: 'action', title : 'Action' }
+            ]
+          } );
+        </script>
+
         <div class= "graphs">
           <div class ="graph_cont">
             <canvas id="temp" width="450px" height="300px" display="inline"></canvas>
@@ -39,6 +65,7 @@
         <footer>
             <p>© 2020 sprout.ed - contact us at <a href="mailto:sprouted04@gmail.com">sprouted04@gmail.com</a></p>
         </footer>
+
         <script>
           Chart.defaults.global.responsive = false
           Chart.defaults.global.legend.display = false;

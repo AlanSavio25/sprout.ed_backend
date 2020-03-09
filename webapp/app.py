@@ -14,6 +14,10 @@ tl = Timeloop()
 
 app = Flask(__name__, static_url_path='/static')
 
+@app.route("/actions.json")
+def actions():
+    return render_template('actions.json')
+
 @app.route("/addthis" , methods = ['POST'])
 def addtojson():
     name = request.form['plantname']
@@ -35,6 +39,18 @@ def addtojson():
 
     with open('plant.json', 'r') as pfile:
         content = pfile.read()
+
+    # add to action log
+    with open(".\\templates\\actions.json") as actions_file:
+        actions_data = json.load(actions_file)
+
+    with open('.\\templates\\actions.json', 'w') as actions_file:
+        actions_data['actions'].insert(0,{
+            'timestamp': '09-03-2020',
+            'action' : 'Added plant id ' + id
+        })
+        print(actions_data)
+        json.dump(actions_data, actions_file , indent=2)
 
     return render_template("plantdisplay.html", content=content)
 
