@@ -10,26 +10,49 @@
 
 .plot {
   background: #8e2828cc;
-  border: 1px solid #fff5;
+  border: 1px solid transparent;
   float: left;
   font-size: 24px;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
+  line-height: 42px;
+  height: 40px;
+  width: 40px;
+  /*margin-right: -1px;
+  margin-top: -1px;*/
   padding: 0;
   text-align: center;
-  width: 34px;
 }
 
 .plantable {
-  background: #96501ee3;
+  background: #96501ef2;
 }
 
 .plot:focus {
   outline: none;
 }
+
+.plot:hover {
+    border: 1px solid #fff5;
+    -webkit-animation: pulse 2s infinite;
+}
+
+@keyframes pulse
+{
+  0% {
+    border-color: #fff5
+  }
+  50% {
+    border-color: transparent
+  }
+  100% {
+    border-color: #fff5
+  }
+}
+
+.plot > img {
+  max-width: 100%;
+}
+
 
 .game {
   display: flex;

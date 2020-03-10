@@ -66,8 +66,8 @@ header {
 }
 
 .plant_map {
-    width: 700px;
-    height: 320px;
+    /*width: 700px;
+    height: 450px;*/
     background-color: #4D3006;
     border: 3px solid #000000;
     box-sizing: border-box;

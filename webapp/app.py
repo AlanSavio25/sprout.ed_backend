@@ -96,7 +96,11 @@ def plant():
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    with open('plots.json', 'r') as f:
+        content = f.read()
+    content = content.replace('\n', ' ').replace('\r', '')
+    return render_template('home.html', plotsJson = content)
+    #return render_template('home.html')
 
 def getdata():
 
@@ -132,7 +136,10 @@ def getPlots():
 
 @app.route('/admin')
 def admin():
-    return render_template('admin.html')
+    with open('plots.json', 'r') as f:
+        content = f.read()
+    content = content.replace('\n', ' ').replace('\r', '')
+    return render_template('admin.html', plotsJson = content)
 
 @app.route('/overrides')
 def overrides():

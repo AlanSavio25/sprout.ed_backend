@@ -27,8 +27,30 @@ function gridToIndex(row,col){
   return index;
 }
 
-
+var images = false;
 class Board extends React.Component {
+
+  toggleImages(){
+
+    const icons = this.state.icons.slice();
+
+    for (var key in plotsJson['plots']){
+      console.log(images);
+      //imageSrc = "/static/plantPics/p1.png";
+      var imageSrc =  `\\static\\plant.jpg?d=${Date.now()}`;
+      if (images){
+        icons[key] =  <img src={imageSrc} alt="plot1 pic"></img>;
+      } else {
+        icons[key] = plotsJson['plots'][key]['plantType'];
+      }
+    }
+    images = !images;
+
+
+    this.setState({
+      icons: icons
+    });
+  }
 
   renderPlot(i) {
 
@@ -54,18 +76,57 @@ class Board extends React.Component {
       }
     }
 
-
-
     var liClasses = classList({
       'plot': true,
       'plantable': plantable
     });
 
+    return (
+      <div  className={liClasses}  onClick={() => this.handleClick(i)}>
+      {icon}
+      </div>
+    );
+  }
+
+  renderSidebar(){
+
+    if ((this.state.mode == "admin" || this.state.mode == "user") && this.state.actionArray.size == 1){
+      var plot = this.state.actionArray.values().next().value
+
+      for (var key in plotsJson['plots']){
+        //var icon = plotsJson['plants'][key]['plantType']
+        //this.state.icons[plot] = icon;
+        //this.state.icons[plot] =  <img src="/static/plantPics/p1.png" alt="plot1 pic"></img>;
+        //this.markUnPlantable(plot,plotsJson['plants'][key]['size']);
+        if (key == plot){
+          var waterdate = plotsJson['plots'][key]['waterdate'];
+          var name = plotsJson['plots'][key]['plantname'];
+        }
+      }
+    }
+
+    var action = (this.state.mode == "admin")? "Remove" : "Water";
 
     return (
-      <button className={liClasses} onClick={() => this.handleClick(i)}>
-      {icon}
-      </button>
+      <div>
+        <h4>Overview</h4>
+        <a className="button" id="view_image_button" onClick={() => this.toggleImages()}>View plants</a>
+        <br></br>
+        <select id="size">
+          <option value="0">r = 0</option>
+          <option value="1">r = 1</option>
+          <option value="2">r = 2</option>
+          <option value="3">r = 3</option>
+        </select>
+        <div className="mode">View = {this.state.mode}</div>
+        <button className="waterButton" onClick={() => this.actionSelected()}>{action}</button>
+        <div className="message">Output = {this.state.output}</div>
+        <br></br>
+        <div className="message">This plant was last watered on {waterdate}</div>
+        <div className="message">This plant is called {name}</div>
+
+        <a className="button" id="view_image_button" onClick={() => this.removePlant(plot)}>Remove {name}?</a>
+      </div>
     );
   }
 
@@ -76,16 +137,20 @@ class Board extends React.Component {
     this.state = {
       icons: Array(maxCol*maxRow).fill(null),
       plantable: Array(maxCol*maxRow).fill(true),
-      mode: "user",
+      mode: pageMode,
       output: "",
       actionArray: new Set()
     };
 
-    for (var key in plotsJson['plants']){
-      var plot = plotsJson['plants'][key]['plot']
-      var icon = plotsJson['plants'][key]['plantType']
+    this.sideBar=  React.createRef();
+
+
+    for (var key in plotsJson['plots']){
+      var plot = key;
+      var icon = plotsJson['plots'][key]['plantType'];
       this.state.icons[plot] = icon;
-      this.markUnPlantable(plot,plotsJson['plants'][key]['size']);
+      //this.state.icons[plot] =  <img src="/static/plantPics/p1.png" alt="plot1 pic"></img>;
+      this.markUnPlantable(plot,plotsJson['plots'][key]['size']);
     }
 
 
@@ -131,39 +196,45 @@ class Board extends React.Component {
     });
   }
 
-actionSelected(){
-  console.log(Array.from(this.state.actionArray).join(' '))
+  actionSelected(){
+    console.log(Array.from(this.state.actionArray).join(' '))
 
-  //this.state.output = actionArray;
+    //this.state.output = actionArray;
     this.setState({
       output: Array.from(this.state.actionArray).map(indexToGrid).join(' & '),
       actionArray: new Set()
     })
-}
+  }
 
 
 
-markUnPlantable(centre,radius){
+  markUnPlantable(centre,radius){
 
-  var [row,col] = indexToGrid(centre);
+    var [row,col] = indexToGrid(centre);
 
-  for (var i = row - radius; i <= row + radius; i++){
-    for (var j = col - radius; j<= col + radius; j++) {
-      this.state.plantable[gridToIndex(i,j)] = false;
+    for (var i = row - radius; i <= row + radius; i++){
+      for (var j = col - radius; j<= col + radius; j++) {
+        this.state.plantable[gridToIndex(i,j)] = false;
+      }
     }
   }
-}
 
 
-changeMode(){
+  changeMode(){
 
-  this.setState({
-    mode: document.getElementById('mode').value,
-    actionArray: new Set()
-  })
-}
+    // <select id="mode" onChange={() => this.changeMode()}>
+    //   <option value="user">User</option>
+    //   <option value="water">Water</option>
+    //   <option value="admin">Admin</option>
+    // </select>
 
-render(){
+    this.setState({
+      mode: document.getElementById('mode').value,
+      actionArray: new Set()
+    })
+  }
+
+  render(){
     const workspace = "Appleton 3";
     const rows = [];
 
@@ -175,30 +246,22 @@ render(){
       rows.push(  <div className="plant-row">{row}</div>)
     }
 
-    var action = (this.state.mode == "admin")? "Remove" : "Water";
 
     return (
       <div>
-        <div className="workspace">{workspace}</div>
-        <select id="mode" onChange={() => this.changeMode()}>
-          <option value="user">User</option>
-          <option value="water">Water</option>
-          <option value="admin">Admin</option>
-        </select>
-        <select id="size">
-          <option value="0">r = 0</option>
-          <option value="1">r = 1</option>
-          <option value="2">r = 2</option>
-          <option value="3">r = 3</option>
-        </select>
-        <div className="mode">View = {this.state.mode}</div>
-        {rows}
-        <button className="waterButton" onClick={() => this.actionSelected()}>{action}</button>
-        <div className="message">Output = {this.state.output}</div>
+        <div className="plant_map">
+          {rows}
+
+        </div>
+        <div className="info_box">
+          {this.renderSidebar()}
+        </div>
       </div>
     );
-}
+  }
+
 
 }
+
 
 ReactDOM.render(<Board />, document.getElementById('root'));
