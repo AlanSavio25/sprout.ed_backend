@@ -24,7 +24,7 @@ def actions():
 @app.route("/addthis" , methods = ['POST'])
 def addtojson():
     name = request.form['plantname']
-    id = request.form['plantid']
+    plantid = request.form['plantid']
     waterdate = request.form['waterdate']
 
     with open("plant.json") as plantfile:
@@ -34,7 +34,7 @@ def addtojson():
     with open('plant.json', 'w') as pfile:
         plantdata['plants'].append({
             'plantname': name,
-            'plantid': id,
+            'plantid': plantid,
             'waterdate': waterdate
         })
         json.dump(plantdata, pfile , indent=2)
@@ -44,15 +44,8 @@ def addtojson():
         content = pfile.read()
 
     # add to action log
-    with open("./templates/actions.json") as actions_file:
-        actions_data = json.load(actions_file)
-
-    with open('./templates/actions.json', 'w') as actions_file:
-        actions_data['actions'].insert(0,{
-            'timestamp': time.asctime(),
-            'action' : 'Added plant id ' + id
-        })
-        json.dump(actions_data, actions_file , indent=2)
+    action = 'Added plant id ' + plantid
+    addToActions(action)
 
     return render_template("plantdisplay.html", content=content)
 
@@ -75,15 +68,8 @@ def removeFromJson():
         content = pfile.read()
 
     # add to action log
-    with open("./templates/actions.json") as actions_file:
-        actions_data = json.load(actions_file)
-
-    with open('./templates/actions.json', 'w') as actions_file:
-        actions_data['actions'].insert(0,{
-            'timestamp': time.asctime(),
-            'action' : 'Removed plant id ' + removalid
-        })
-        json.dump(actions_data, actions_file , indent=2)
+    action = 'Removed plant id ' + removalid
+    addToActions(action)
 
     return render_template("plantdisplay.html", content=content)
 
@@ -96,7 +82,7 @@ def plant():
 
 @app.route('/')
 def home():
-    with open('plots.json', 'r') as f:
+    with open('plots.json', 'r', encoding="utf8") as f:
         content = f.read()
     content = content.replace('\n', ' ').replace('\r', '')
     return render_template('home.html', plotsJson = content)
@@ -136,7 +122,7 @@ def getPlots():
 
 @app.route('/admin')
 def admin():
-    with open('plots.json', 'r') as f:
+    with open('plots.json', 'r', encoding="utf8") as f:
         content = f.read()
     content = content.replace('\n', ' ').replace('\r', '')
     return render_template('admin.html', plotsJson = content)
@@ -158,15 +144,8 @@ def move():
     client.initClient(message)
 
     # add to action log
-    with open("./templates/actions.json") as actions_file:
-        actions_data = json.load(actions_file)
-
-    with open('./templates/actions.json', 'w') as actions_file:
-        actions_data['actions'].insert(0,{
-            'timestamp': time.asctime(),
-            'action' : 'Moved to position ' + message
-        })
-        json.dump(actions_data, actions_file , indent=2)
+    action = 'Moved to position ' + message
+    addToActions(action)
 
     return render_template('overrides.html', sensor_reading="Click to view current sensor readings")
 
@@ -205,6 +184,20 @@ def image():
 @tl.job(interval=timedelta(seconds=60))
 def sample_job_every_60s():
     print("60s : {}".format(time.ctime()))
+
+
+def addToActions(action):
+     # add to action log
+    with open("./templates/actions.json") as actions_file:
+        actions_data = json.load(actions_file)
+
+    with open('./templates/actions.json', 'w') as actions_file:
+        actions_data['actions'].insert(0,{
+            'timestamp': time.asctime(),
+            'action' : action
+        })
+        json.dump(actions_data, actions_file , indent=2)
+
 
 if __name__ == '__main__':
     tl.start(block=False)
