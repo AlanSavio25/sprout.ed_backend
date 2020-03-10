@@ -4,6 +4,7 @@
         <title>sprout.ed - Home</title>
         <link rel="stylesheet" href="/static/style.css" />
         <link rel="shortcut icon" type="image/png" href="/static/favicon.png"/>
+
     </head>
     <body>
         <header>
@@ -13,14 +14,9 @@
                 <a class="button" href="/admin">Admin</a>
             </div>
         </header>
-        <div class="plant_dashboard">
+        <div class="plant_dashboard" id="root">
             <div class="plant_map"></div>
-            <div class="info_box">
-                <h4>Overview</h4>
-                <p>You are currently growing 6 plants.</p>
-                <p>Click on a plant to view its information.</p>
-                <a class="button" id="view_image_button" onclick="toggle_image()">View plants</a>
-            </div>
+            <div class="info_box" ></div>
         </div>
         <div id="image_viewer">
             <img id="plant_photo" src="/static/plant.jpg" alt="plant"/>
@@ -62,4 +58,18 @@
       }
     }
     </script>
+
+
+    <script src="/static/react/react.js"></script>
+    <script src="/static/react/react-dom.js"></script>
+    <script src="/static/react/JSXTransformer.js"></script>
+    <link rel="stylesheet" href="/static/plants.css" />
+
+    <script>
+      var plotsJson = JSON.parse('{{ plotsJson| safe }}');
+    </script>
+
+    <script  type="text/jsx" src="/static/grid2.js">
+    </script>
+
 </html>

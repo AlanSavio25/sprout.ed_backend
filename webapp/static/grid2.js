@@ -63,9 +63,14 @@ class Board extends React.Component {
 
 
     return (
-      <button className={liClasses} onClick={() => this.handleClick(i)}>
+      //<button className={liClasses} onClick={() => this.handleClick(i)}>
+      //{icon}
+      //</button>
+      //
+      <div  className={liClasses}  onClick={() => this.handleClick(i)}>
+
       {icon}
-      </button>
+      </div>
     );
   }
 
@@ -81,10 +86,14 @@ class Board extends React.Component {
       actionArray: new Set()
     };
 
+    this.sideBar=  React.createRef();
+
+
     for (var key in plotsJson['plants']){
       var plot = plotsJson['plants'][key]['plot']
       var icon = plotsJson['plants'][key]['plantType']
-      this.state.icons[plot] = icon;
+      //this.state.icons[plot] = icon;
+      this.state.icons[plot] =  <img src="/static/plantPics/p1.png" alt="plot1 pic"></img>;
       this.markUnPlantable(plot,plotsJson['plants'][key]['size']);
     }
 
@@ -131,39 +140,39 @@ class Board extends React.Component {
     });
   }
 
-actionSelected(){
-  console.log(Array.from(this.state.actionArray).join(' '))
+  actionSelected(){
+    console.log(Array.from(this.state.actionArray).join(' '))
 
-  //this.state.output = actionArray;
+    //this.state.output = actionArray;
     this.setState({
       output: Array.from(this.state.actionArray).map(indexToGrid).join(' & '),
       actionArray: new Set()
     })
-}
+  }
 
 
 
-markUnPlantable(centre,radius){
+  markUnPlantable(centre,radius){
 
-  var [row,col] = indexToGrid(centre);
+    var [row,col] = indexToGrid(centre);
 
-  for (var i = row - radius; i <= row + radius; i++){
-    for (var j = col - radius; j<= col + radius; j++) {
-      this.state.plantable[gridToIndex(i,j)] = false;
+    for (var i = row - radius; i <= row + radius; i++){
+      for (var j = col - radius; j<= col + radius; j++) {
+        this.state.plantable[gridToIndex(i,j)] = false;
+      }
     }
   }
-}
 
 
-changeMode(){
+  changeMode(){
 
-  this.setState({
-    mode: document.getElementById('mode').value,
-    actionArray: new Set()
-  })
-}
+    this.setState({
+      mode: document.getElementById('mode').value,
+      actionArray: new Set()
+    })
+  }
 
-render(){
+  render(){
     const workspace = "Appleton 3";
     const rows = [];
 
@@ -179,26 +188,37 @@ render(){
 
     return (
       <div>
-        <div className="workspace">{workspace}</div>
-        <select id="mode" onChange={() => this.changeMode()}>
-          <option value="user">User</option>
-          <option value="water">Water</option>
-          <option value="admin">Admin</option>
-        </select>
-        <select id="size">
-          <option value="0">r = 0</option>
-          <option value="1">r = 1</option>
-          <option value="2">r = 2</option>
-          <option value="3">r = 3</option>
-        </select>
-        <div className="mode">View = {this.state.mode}</div>
-        {rows}
-        <button className="waterButton" onClick={() => this.actionSelected()}>{action}</button>
-        <div className="message">Output = {this.state.output}</div>
+        <div className="plant_map">
+          {rows}
+
+        </div>
+        <div className="info_box">
+          <h4>Overview</h4>
+          <p>You are currently growing 6 plants.</p>
+          <p>Click on a plant to view its information.</p>
+          <div className="workspace">{workspace}</div>
+          <select id="mode" onChange={() => this.changeMode()}>
+            <option value="user">User</option>
+            <option value="water">Water</option>
+            <option value="admin">Admin</option>
+          </select>
+          <select id="size">
+            <option value="0">r = 0</option>
+            <option value="1">r = 1</option>
+            <option value="2">r = 2</option>
+            <option value="3">r = 3</option>
+          </select>
+          <div className="mode">View = {this.state.mode}</div>
+          <button className="waterButton" onClick={() => this.actionSelected()}>{action}</button>
+          <div className="message">Output = {this.state.output}</div>
+          <a className="button" id="view_image_button" onClick="toggle_image()">View plants</a>
+        </div>
       </div>
     );
-}
+  }
+
 
 }
+
 
 ReactDOM.render(<Board />, document.getElementById('root'));
