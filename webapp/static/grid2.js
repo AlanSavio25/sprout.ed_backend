@@ -92,40 +92,68 @@ class Board extends React.Component {
 
     if ((this.state.mode == "admin" || this.state.mode == "user") && this.state.actionArray.size == 1){
       var plot = this.state.actionArray.values().next().value
-
-      for (var key in plotsJson['plots']){
-        //var icon = plotsJson['plants'][key]['plantType']
-        //this.state.icons[plot] = icon;
-        //this.state.icons[plot] =  <img src="/static/plantPics/p1.png" alt="plot1 pic"></img>;
-        //this.markUnPlantable(plot,plotsJson['plants'][key]['size']);
-        if (key == plot){
-          var waterdate = plotsJson['plots'][key]['waterdate'];
-          var name = plotsJson['plots'][key]['plantname'];
+      if (plot in plotsJson['plots']){
+        var waterdate = plotsJson['plots'][plot]['waterDate'];
+        var name = plotsJson['plots'][plot]['plantName'];
+        var imageSrc = `/static/plantPics/p${plot}.png`;
+        if (plot == 99){
+          var imageSrc =  `\\static\\plant.jpg?d=${Date.now()}`;
         }
+        var image = <img src={imageSrc}  className="imageBox" alt="plotPlantPhoto"></img>;
+        console.log(image);
       }
     }
 
     var action = (this.state.mode == "admin")? "Remove" : "Water";
 
-    return (
-      <div>
-        <h4>Overview</h4>
-        <a className="button" id="view_image_button" onClick={() => this.toggleImages()}>View plants</a>
-        <br></br>
-        <select id="size">
-          <option value="0">r = 0</option>
-          <option value="1">r = 1</option>
-          <option value="2">r = 2</option>
-          <option value="3">r = 3</option>
-        </select>
-        <div className="mode">View = {this.state.mode}</div>
-        <button className="waterButton" onClick={() => this.actionSelected()}>{action}</button>
-        <div className="message">Output = {this.state.output}</div>
-        <br></br>
-        <div className="message">This plant was last watered on {waterdate}</div>
-        <div className="message">This plant is called {name}</div>
 
-        <a className="button" id="view_image_button" onClick={() => this.removePlant(plot)}>Remove {name}?</a>
+
+    if (this.state.mode == "user"){
+      return (
+        <div>
+          <h4>Overview ({this.state.mode})</h4>
+          <div className="message">This plant is called {name}</div>
+          <div className="message">This plant was last watered on {waterdate}</div>
+        </div>
+      );
+    } else if (this.state.mode == "admin"){
+      return (
+        <div>
+          <h4>Overview ({this.state.mode})</h4>
+          <button className="waterButton" onClick={() => this.actionSelected()}>{action}</button>
+          <div className="message">This plant was last watered on {waterdate}</div>
+          <div className="message">This plant is called {name}</div>
+          <div className="message">Plot {plot}, co-ords ({indexToGrid(plot)[0]},{indexToGrid(plot)[1]})</div>
+
+          {image}
+          <a className="button" id="view_image_button" onClick={() => this.removePlant(plot)}>Remove {name}?</a>
+        </div>
+      );
+
+    } else if (this.state.mode == "sow"){
+      var plants = [];
+      for (var key in plantDB['types']){
+        plants.push(this.renderPlant(key));
+      }
+      return (
+        <div>
+          <h4>Overview ({this.state.mode})</h4>
+          {plants}
+          <a className="button" onClick={() => this.setState({mode: "admin"})}>Cancel</a>
+        </div>
+      )
+
+    }
+
+  }
+
+  renderPlant(type){
+    return (
+      <div className="plant-row">
+        <div className="sprite">{plantDB['types'][type]['sprite']}</div>
+        <div className="name">{type}</div>
+        <div className="">{plantDB['types'][type]['description']}</div>
+
       </div>
     );
   }
@@ -183,9 +211,12 @@ class Board extends React.Component {
     }
 
     if (this.state.mode == "admin" && this.state.plantable[i]){
-      icons[i] = '👨‍🌾';
-      console.log(document.getElementById('size').value);
-      this.markUnPlantable(i,parseInt(document.getElementById('size').value));
+      //icons[i] = '👨‍🌾';
+      //console.log(document.getElementById('size').value);
+      //this.markUnPlantable(i,1);
+      this.setState({
+        mode: "sow"
+      });
     }
 
 
@@ -243,7 +274,7 @@ class Board extends React.Component {
       for (var x = 0;x <maxCol; x++) {
         row.push(this.renderPlot(y*maxCol + x));
       }
-      rows.push(  <div className="plant-row">{row}</div>)
+      rows.push(  <div className="plot-row">{row}</div>)
     }
 
 
@@ -256,6 +287,7 @@ class Board extends React.Component {
         <div className="info_box">
           {this.renderSidebar()}
         </div>
+        <div className="message">Debug output = {this.state.output}</div>
       </div>
     );
   }

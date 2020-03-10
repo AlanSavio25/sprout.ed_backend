@@ -139,7 +139,10 @@ def admin():
     with open('plots.json', 'r') as f:
         content = f.read()
     content = content.replace('\n', ' ').replace('\r', '')
-    return render_template('admin.html', plotsJson = content)
+    with open('plantdb.json', 'r') as f:
+        content2 = f.read()
+    content2 = content2.replace('\n', ' ').replace('\r', '')
+    return render_template('admin.html', plotsJson = content, dbJSON = content2)
 
 @app.route('/overrides')
 def overrides():

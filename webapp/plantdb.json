@@ -1,0 +1,23 @@
+{
+  "_comment": "Data taken from openfarm.cc, converted to gridsize in app, measurements in cm",
+  "types": {
+    "Basil":{
+      "spreadRadiusCM": 13,
+      "heightCM": 60,
+      "rowSpacingCM" : 10,
+      "growDegDays": 60,
+      "sprite": "🌿",
+      "description": "A herb for the masses."
+
+    },
+    "Coriander":{
+      "spreadRadiusCM": 13,
+      "heightCM": 60,
+      "rowSpacingCM" : 10,
+      "growDegDays": 60,
+      "sprite": "🌾",
+      "description": "Empowering office cooks."
+
+    }
+  }
+}
