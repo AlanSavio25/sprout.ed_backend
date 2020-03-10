@@ -176,7 +176,7 @@ def water_the_plant():
 
 @app.route('/gridReact')
 def gridding():
-    with open('plots.json', 'r') as f:
+    with open('plots.json', 'r', encoding="utf8") as f:
         content = f.read()
     content = content.replace('\n', ' ').replace('\r', '')
     return render_template('grid2.html', plotsJson = content)
