@@ -54,22 +54,59 @@ class Board extends React.Component {
       }
     }
 
-
-
     var liClasses = classList({
       'plot': true,
       'plantable': plantable
     });
 
+    return (
+      <div  className={liClasses}  onClick={() => this.handleClick(i)}>
+      {icon}
+      </div>
+    );
+  }
+
+  renderSidebar(){
+
+    if ((this.state.mode == "admin" || this.state.mode == "user") && this.state.actionArray.size == 1){
+      var plot = this.state.actionArray.values().next().value
+
+      for (var key in plotsJson['plants']){
+        var pplot = plotsJson['plants'][key]['plot']
+        //var icon = plotsJson['plants'][key]['plantType']
+        //this.state.icons[plot] = icon;
+        //this.state.icons[plot] =  <img src="/static/plantPics/p1.png" alt="plot1 pic"></img>;
+        //this.markUnPlantable(plot,plotsJson['plants'][key]['size']);
+        if (pplot == plot){
+          var out = plotsJson['plants'][key]['waterdate']
+        }
+      }
+    }
+
+    var action = (this.state.mode == "admin")? "Remove" : "Water";
 
     return (
-      //<button className={liClasses} onClick={() => this.handleClick(i)}>
-      //{icon}
-      //</button>
-      //
-      <div  className={liClasses}  onClick={() => this.handleClick(i)}>
+      <div>
+        <h4>Overview</h4>
+        <p>You are currently growing 6 plants.</p>
+        <p>Click on a plant to view its information.</p>
+        <select id="mode" onChange={() => this.changeMode()}>
+          <option value="user">User</option>
+          <option value="water">Water</option>
+          <option value="admin">Admin</option>
+        </select>
+        <select id="size">
+          <option value="0">r = 0</option>
+          <option value="1">r = 1</option>
+          <option value="2">r = 2</option>
+          <option value="3">r = 3</option>
+        </select>
+        <div className="mode">View = {this.state.mode}</div>
+        <button className="waterButton" onClick={() => this.actionSelected()}>{action}</button>
+        <div className="message">Output = {this.state.output}</div>
+        <div className="message">This plant was last watered on {out}</div>
 
-      {icon}
+        <a className="button" id="view_image_button" onClick="toggle_image()">View plants</a>
       </div>
     );
   }
@@ -184,7 +221,6 @@ class Board extends React.Component {
       rows.push(  <div className="plant-row">{row}</div>)
     }
 
-    var action = (this.state.mode == "admin")? "Remove" : "Water";
 
     return (
       <div>
@@ -193,25 +229,7 @@ class Board extends React.Component {
 
         </div>
         <div className="info_box">
-          <h4>Overview</h4>
-          <p>You are currently growing 6 plants.</p>
-          <p>Click on a plant to view its information.</p>
-          <div className="workspace">{workspace}</div>
-          <select id="mode" onChange={() => this.changeMode()}>
-            <option value="user">User</option>
-            <option value="water">Water</option>
-            <option value="admin">Admin</option>
-          </select>
-          <select id="size">
-            <option value="0">r = 0</option>
-            <option value="1">r = 1</option>
-            <option value="2">r = 2</option>
-            <option value="3">r = 3</option>
-          </select>
-          <div className="mode">View = {this.state.mode}</div>
-          <button className="waterButton" onClick={() => this.actionSelected()}>{action}</button>
-          <div className="message">Output = {this.state.output}</div>
-          <a className="button" id="view_image_button" onClick="toggle_image()">View plants</a>
+          {this.renderSidebar()}
         </div>
       </div>
     );
