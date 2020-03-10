@@ -27,8 +27,28 @@ function gridToIndex(row,col){
   return index;
 }
 
-
+var images = false;
 class Board extends React.Component {
+
+  toggleImages(){
+
+    const icons = this.state.icons.slice();
+
+    for (var key in plotsJson['plots']){
+      console.log(images)
+      if (images){
+        icons[key] =  <img src="/static/plantPics/p1.png" alt="plot1 pic"></img>;
+      } else {
+        icons[key] = plotsJson['plots'][key]['plantType'];
+      }
+    }
+    images = !images;
+
+
+    this.setState({
+      icons: icons
+    });
+  }
 
   renderPlot(i) {
 
@@ -71,14 +91,14 @@ class Board extends React.Component {
     if ((this.state.mode == "admin" || this.state.mode == "user") && this.state.actionArray.size == 1){
       var plot = this.state.actionArray.values().next().value
 
-      for (var key in plotsJson['plants']){
-        var pplot = plotsJson['plants'][key]['plot']
+      for (var key in plotsJson['plots']){
         //var icon = plotsJson['plants'][key]['plantType']
         //this.state.icons[plot] = icon;
         //this.state.icons[plot] =  <img src="/static/plantPics/p1.png" alt="plot1 pic"></img>;
         //this.markUnPlantable(plot,plotsJson['plants'][key]['size']);
-        if (pplot == plot){
-          var out = plotsJson['plants'][key]['waterdate']
+        if (key == plot){
+          var waterdate = plotsJson['plots'][key]['waterdate'];
+          var name = plotsJson['plots'][key]['plantname'];
         }
       }
     }
@@ -88,13 +108,8 @@ class Board extends React.Component {
     return (
       <div>
         <h4>Overview</h4>
-        <p>You are currently growing 6 plants.</p>
-        <p>Click on a plant to view its information.</p>
-        <select id="mode" onChange={() => this.changeMode()}>
-          <option value="user">User</option>
-          <option value="water">Water</option>
-          <option value="admin">Admin</option>
-        </select>
+        <a className="button" id="view_image_button" onClick={() => this.toggleImages()}>View plants</a>
+        <br></br>
         <select id="size">
           <option value="0">r = 0</option>
           <option value="1">r = 1</option>
@@ -104,9 +119,11 @@ class Board extends React.Component {
         <div className="mode">View = {this.state.mode}</div>
         <button className="waterButton" onClick={() => this.actionSelected()}>{action}</button>
         <div className="message">Output = {this.state.output}</div>
-        <div className="message">This plant was last watered on {out}</div>
+        <br></br>
+        <div className="message">This plant was last watered on {waterdate}</div>
+        <div className="message">This plant is called {name}</div>
 
-        <a className="button" id="view_image_button" onClick="toggle_image()">View plants</a>
+        <a className="button" id="view_image_button" onClick={() => this.removePlant(plot)}>Remove {name}?</a>
       </div>
     );
   }
@@ -126,12 +143,12 @@ class Board extends React.Component {
     this.sideBar=  React.createRef();
 
 
-    for (var key in plotsJson['plants']){
-      var plot = plotsJson['plants'][key]['plot']
-      var icon = plotsJson['plants'][key]['plantType']
-      //this.state.icons[plot] = icon;
-      this.state.icons[plot] =  <img src="/static/plantPics/p1.png" alt="plot1 pic"></img>;
-      this.markUnPlantable(plot,plotsJson['plants'][key]['size']);
+    for (var key in plotsJson['plots']){
+      var plot = key;
+      var icon = plotsJson['plots'][key]['plantType'];
+      this.state.icons[plot] = icon;
+      //this.state.icons[plot] =  <img src="/static/plantPics/p1.png" alt="plot1 pic"></img>;
+      this.markUnPlantable(plot,plotsJson['plots'][key]['size']);
     }
 
 
@@ -202,6 +219,12 @@ class Board extends React.Component {
 
 
   changeMode(){
+
+    // <select id="mode" onChange={() => this.changeMode()}>
+    //   <option value="user">User</option>
+    //   <option value="water">Water</option>
+    //   <option value="admin">Admin</option>
+    // </select>
 
     this.setState({
       mode: document.getElementById('mode').value,

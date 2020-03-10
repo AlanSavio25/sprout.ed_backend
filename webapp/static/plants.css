@@ -39,13 +39,13 @@
 @keyframes pulse
 {
   0% {
-    border-color: transparent
-  }
-  50% {
     border-color: #fff5
   }
-  100% {
+  50% {
     border-color: transparent
+  }
+  100% {
+    border-color: #fff5
   }
 }
 
