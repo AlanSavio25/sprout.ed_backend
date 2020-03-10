@@ -35,9 +35,11 @@ class Board extends React.Component {
     const icons = this.state.icons.slice();
 
     for (var key in plotsJson['plots']){
-      console.log(images)
+      console.log(images);
+      //imageSrc = "/static/plantPics/p1.png";
+      var imageSrc =  `\\static\\plant.jpg?d=${Date.now()}`;
       if (images){
-        icons[key] =  <img src="/static/plantPics/p1.png" alt="plot1 pic"></img>;
+        icons[key] =  <img src={imageSrc} alt="plot1 pic"></img>;
       } else {
         icons[key] = plotsJson['plots'][key]['plantType'];
       }
