@@ -81,7 +81,7 @@ class Board extends React.Component {
     this.state = {
       icons: Array(maxCol*maxRow).fill(null),
       plantable: Array(maxCol*maxRow).fill(true),
-      mode: "user",
+      mode: pageMode,
       output: "",
       actionArray: new Set()
     };

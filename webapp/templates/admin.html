@@ -18,15 +18,8 @@
                 <a class="button" href="/overrides">Overrides</a>
             </div>
         </header>
-        <div class="plant_dashboard">
-            <div class="plant_map"></div>
-            <div class="info_box">
-                <h4>Overview</h4>
-                <p>You are currently growing 6 plants.</p>
-                <p>Click on a plant to view its information.</p>
-                <p>Click on a plus to add a new plant.</p>
-            </div>
-        </div>
+        <div class="plant_dashboard" id="root"></div>
+
 
         <div id="action_log">
           <table id="action_table"></table>
@@ -172,4 +165,20 @@
           setInterval(addData, 1500)
         </script>
     </body>
+
+
+    <script src="/static/react/react.js"></script>
+    <script src="/static/react/react-dom.js"></script>
+    <script src="/static/react/JSXTransformer.js"></script>
+    <link rel="stylesheet" href="/static/plants.css" />
+
+    <script>
+      var plotsJson = JSON.parse('{{ plotsJson| safe }}');
+      var pageMode = "admin";
+    </script>
+
+    <script  type="text/jsx" src="/static/grid2.js">
+    </script>
+
+
 </html>

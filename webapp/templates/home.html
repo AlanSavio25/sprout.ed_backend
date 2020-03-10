@@ -14,10 +14,7 @@
                 <a class="button" href="/admin">Admin</a>
             </div>
         </header>
-        <div class="plant_dashboard" id="root">
-            <div class="plant_map"></div>
-            <div class="info_box" ></div>
-        </div>
+        <div class="plant_dashboard" id="root"></div>
         <div id="image_viewer">
             <img id="plant_photo" src="/static/plant.jpg" alt="plant"/>
         </div>
@@ -67,6 +64,7 @@
 
     <script>
       var plotsJson = JSON.parse('{{ plotsJson| safe }}');
+      var pageMode = "user"
     </script>
 
     <script  type="text/jsx" src="/static/grid2.js">
