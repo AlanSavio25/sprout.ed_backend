@@ -41,7 +41,7 @@ class Board extends React.Component {
       if (images){
         icons[key] =  <img src={imageSrc} alt="plot1 pic"></img>;
       } else {
-        icons[key] = plotsJson['plots'][key]['plantType'];
+        icons[key] = plotsJson['plots'][key]['plantIcon'];
       }
     }
     images = !images;
@@ -80,9 +80,12 @@ class Board extends React.Component {
         icon = plantDB['types'][this.state.selectedType]["sprite"];
         console.log(icon)
       }
-      if (this.withinRadius(this.state.hoverGrid,i)){
+      console.log(this.state.hoverArray.keys());
+      if (this.state.hoverArray.includes(i)){
+        console.log(i);
         plantZone = true;
       }
+
     }
 
     var liClasses = classList({
@@ -101,14 +104,42 @@ class Board extends React.Component {
     );
   }
 
-  withinRadius(source,target){
-    var r = plantDB["types"][this.state.selectedType]["spreadRadiusCM"]/10;
-    var [sourceX,sourceY] = indexToGrid(source);
+  withinManhattan(sourceX,sourceY,target,type){
+    var r = plantDB["types"][type]["spreadRadiusCM"]/this.state.gridToCM;
     var [targetX,targetY] = indexToGrid(target);
+
     return ((targetX <= sourceX + r) &&
             (targetX >= sourceX - r) &&
             (targetY <= sourceY + r) &&
             (targetY >= sourceY - r) )
+  }
+
+  withinEuclidean(centreX,centreY,target,type){
+    var radius = plantDB['types'][type]["spreadRadiusCM"];
+    var [targetX,targetY] = indexToGrid(target);
+
+    var a = (targetX-centreX);
+    var b = (targetY-centreY);
+    var euclidean = Math.sqrt((a*a) + (b*b));
+
+    return (euclidean*this.state.gridToCM < radius);
+  }
+
+
+
+  plotArray(centre, type){
+    if (!(type in plantDB['types'])){
+      return [centre];
+    }
+
+    var plots = []
+
+    var [centreX,centreY] = indexToGrid(centre);
+    for (var i = 0;i < maxCol*maxRow; i++){
+      if (this.withinEuclidean(centreX,centreY,i,type)) plots.push(i);
+      //if (this.withinManhattan(centreX,centreY,i,type)) plots.push(i);
+    }
+    return plots;
   }
 
 
@@ -167,7 +198,9 @@ class Board extends React.Component {
       return (
         <div>
           <h4>Overview ({this.state.mode})</h4>
-          {plants}
+          <div className="plantSelector">
+            {plants}
+          </div>
           <a className="button" onClick={() => this.setState({mode: "admin"})}>Cancel</a>
         </div>
       )
@@ -187,8 +220,8 @@ class Board extends React.Component {
         <div className="sprite">{plantDB['types'][type]['sprite']}</div>
         <div className="details">
           <div className="typeName">{type}</div>
-          <div className="">{plantDB['types'][type]['description']}</div>
-          <div className="">Plant spread = {plantDB['types'][type]['spreadRadiusCM']}cm</div>
+          <div className="description">{plantDB['types'][type]['description']}</div>
+          <div className="description">Plant spread = {plantDB['types'][type]['spreadRadiusCM']}cm</div>
         </div>
       </div>
     );
@@ -205,12 +238,15 @@ class Board extends React.Component {
     this.setState({
       hoverGrid: grid,
       //output: `hovered at ${grid}`
+      hoverArray: this.plotArray(grid,this.state.selectedType)
     });
+
   };
 
   clearTemp(){
     this.setState({
-      hoverGrid: -100
+      hoverGrid: -100,
+      hoverArray: []
     });
   }
 
@@ -226,7 +262,8 @@ class Board extends React.Component {
       actionArray: new Set(),
       selectedType: "",
       hoverGrid: -100,
-
+      hoverArray: [],
+      gridToCM: 7.0 //2.5
     };
 
     this.sideBar=  React.createRef();
@@ -234,10 +271,10 @@ class Board extends React.Component {
 
     for (var key in plotsJson['plots']){
       var plot = key;
-      var icon = plotsJson['plots'][key]['plantType'];
+      var icon = plotsJson['plots'][key]['plantIcon'];
       this.state.icons[plot] = icon;
       //this.state.icons[plot] =  <img src="/static/plantPics/p1.png" alt="plot1 pic"></img>;
-      this.markUnPlantable(plot,plotsJson['plots'][key]['size']);
+      this.markUnPlantable(plot,plotsJson['plots'][key]['plantType']);
     }
 
 
@@ -298,15 +335,14 @@ class Board extends React.Component {
 
 
 
-  markUnPlantable(centre,radius){
+  markUnPlantable(centre,type){
 
-    var [row,col] = indexToGrid(centre);
+    //var [row,col] = indexToGrid(centre);
 
-    for (var i = row - radius; i <= row + radius; i++){
-      for (var j = col - radius; j<= col + radius; j++) {
-        this.state.plantable[gridToIndex(i,j)] = false;
-      }
-    }
+    this.plotArray(centre,type).forEach((item, i) => {
+      this.state.plantable[item] = false;
+    });
+
   }
 
 

@@ -92,10 +92,21 @@
   font-weight: bold;
 }
 
+.details > .description{
+  font-size:0.85em;
+}
+
 .plant-row > .sprite{
-  padding: 4px;
+  /*padding: 4px;*/
+  height:25x;
+  width:25px;
+  line-height: 25px;
+  padding-left:10px;
+  text-align: center;
+
+
   display: inline-block;
-  border-radius: 50px;
+  border-radius: 50%;
   background: #ddd9;
 }
 
@@ -106,4 +117,16 @@
 
 .plantable.plantZone{
   background: #0b09;
+}
+
+.plantSelector{
+  overflow: auto;
+  max-height: 320px;
+  margin-bottom: 7px;
+}
+
+h4{
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
+
 }
