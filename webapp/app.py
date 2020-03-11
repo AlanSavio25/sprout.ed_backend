@@ -86,7 +86,10 @@ def home():
     with open('plots.json', 'r', encoding="utf8") as f:
         content = f.read()
     content = content.replace('\n', ' ').replace('\r', '')
-    return render_template('home.html', plotsJson = content)
+    with open('plantdb.json', 'r', encoding="utf8") as f:
+        content2 = f.read()
+    content2 = content2.replace('\n', ' ').replace('\r', '')
+    return render_template('home.html', plotsJson = content, dbJSON = content2)
     #return render_template('home.html')
 
 def getdata():
@@ -126,7 +129,7 @@ def admin():
     with open('plots.json', 'r', encoding="utf8") as f:
         content = f.read()
     content = content.replace('\n', ' ').replace('\r', '')
-    with open('plantdb.json', 'r') as f:
+    with open('plantdb.json', 'r', encoding="utf8") as f:
         content2 = f.read()
     content2 = content2.replace('\n', ' ').replace('\r', '')
     return render_template('admin.html', plotsJson = content, dbJSON = content2)

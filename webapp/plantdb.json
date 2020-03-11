@@ -13,7 +13,7 @@
       "spreadRadiusCM": 5.0,
       "heightCM": 60,
       "rowSpacingCM" : 7.5,
-      "sprite": "🌾",
+      "sprite": "🌱",
       "description": "Empowering office cooks."
     },
     "Cactus":{
@@ -29,6 +29,13 @@
       "rowSpacingCM" : 13,
       "sprite": "🌳",
       "description": "The big one"
+    },
+    "Wheat":{
+      "spreadRadiusCM": 8,
+      "heightCM": 60,
+      "rowSpacingCM" : 13,
+      "sprite": "🌾",
+      "description": "Perfect for anywhere but offices."
     }
   }
 }
