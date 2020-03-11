@@ -116,11 +116,14 @@
 
 
 .plantZone{
-  background: #8e2828cc; /*#ddd9;*/
+  background: #D64141cc; /*#8e2828cc; /*#ddd9;*/
 }
 
 .plantable.plantZone{
   background: #0b09;
+}
+.plantable.plantZone.blocked{
+  background: #bbb9;
 }
 
 .plantSelector{

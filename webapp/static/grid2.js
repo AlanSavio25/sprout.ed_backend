@@ -3,6 +3,27 @@
 const maxRow = 10;
 const maxCol = 15;
 
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Yes this code is horrid af
+//
+//
+//
+//
+//
+//
+//
+//
+
 function classList(classes) {
   return Object
     .entries(classes)
@@ -14,13 +35,13 @@ function classList(classes) {
 function indexToGrid(index){
   var row = Math.floor(index / maxCol);
   var col = index - row*maxCol;
-  console.log(`${row},${col} <== ${index}`)
+  //console.log(`${row},${col} <== ${index}`)
   return [row,col];
 }
 
 function gridToIndex(row,col){
   var index = row * maxCol + col;
-  console.log(`${row},${col} ==> ${index}`)
+  //console.log(`${row},${col} ==> ${index}`)
   if (row < 0 || col < 0|| row >= maxRow|| col >= maxCol){
     return -1;
   }
@@ -35,7 +56,7 @@ class Board extends React.Component {
     const icons = this.state.icons.slice();
 
     for (var key in plotsJson['plots']){
-      console.log(images);
+      //console.log(images);
       //imageSrc = "/static/plantPics/p1.png";
       var imageSrc =  `\\static\\plant.jpg?d=${Date.now()}`;
       if (images){
@@ -58,6 +79,7 @@ class Board extends React.Component {
     var plantable = this.state.plantable[i];
     var mode = this.state.mode;
     var plantZone = false;
+    var blocked = false;
 
     if (mode == "admin"){
       if (plantable){
@@ -78,20 +100,22 @@ class Board extends React.Component {
     } else if (mode == "sow" && this.state.selectedType){
       if (this.state.hoverGrid == i){
         icon = plantDB['types'][this.state.selectedType]["sprite"];
-        console.log(icon)
+        //console.log(icon)
       }
-      console.log(this.state.hoverArray.keys());
+      //console.log(this.state.hoverArray.keys());
       if (this.state.hoverArray.includes(i)){
-        console.log(i);
+        //console.log(i);
         plantZone = true;
+        blocked = !this.radiusPlantable();
       }
-
     }
+
 
     var liClasses = classList({
       'plot': true,
       'plantable': plantable,
-      'plantZone': plantZone
+      'plantZone': plantZone,
+      'blocked': blocked
     });
 
     return (
@@ -128,6 +152,8 @@ class Board extends React.Component {
 
 
   plotArray(centre, type){
+    //console.log(centre)
+    //console.log(type)
     if (!(type in plantDB['types'])){
       return [centre];
     }
@@ -139,6 +165,10 @@ class Board extends React.Component {
       if (this.withinEuclidean(centreX,centreY,i,type)) plots.push(i);
       //if (this.withinManhattan(centreX,centreY,i,type)) plots.push(i);
     }
+    plots.forEach((item, i) => {
+      console.log(item);
+    });
+
     return plots;
   }
 
@@ -158,7 +188,7 @@ class Board extends React.Component {
           var imageSrc =  `\\static\\plant.jpg?d=${Date.now()}`;
         }
         var image = <img src={imageSrc}  className="imageBox" alt="plotPlantPhoto"></img>;
-        console.log(image);
+        //console.log(image);
       }
     }
 
@@ -201,7 +231,7 @@ class Board extends React.Component {
           <div className="plantSelector">
             {plants}
           </div>
-          <a className="button" onClick={() => this.setState({mode: "admin"})}>Cancel</a>
+          <a className="button" onClick={() => this.changeMode("admin")}>Cancel</a>
         </div>
       )
 
@@ -227,8 +257,16 @@ class Board extends React.Component {
     );
   }
 
+  removePlant(plot){
+    fetch(`./removePlot?plot=${plot}`)
+  }
+
+  addPlant(plot,type){
+    var [x,y] = indexToGrid(plot);
+    fetch(`./addPlant?plot=${plot}&type=${type}&x=${x}&y=${y}`)
+  }
+
   selectType(type){
-    console.log(type);
     this.setState({
       selectedType: type
     });
@@ -269,12 +307,12 @@ class Board extends React.Component {
     this.sideBar=  React.createRef();
 
 
-    for (var key in plotsJson['plots']){
-      var plot = key;
-      var icon = plotsJson['plots'][key]['plantIcon'];
+    for (var plot in plotsJson['plots']){
+      var icon = plotsJson['plots'][plot]['plantIcon'];
       this.state.icons[plot] = icon;
       //this.state.icons[plot] =  <img src="/static/plantPics/p1.png" alt="plot1 pic"></img>;
-      this.markUnPlantable(plot,plotsJson['plots'][key]['plantType']);
+      //console.log(this.plotArray(plot,plotsJson['plots'][plot]['plantType']));
+      this.markUnPlantable(this.plotArray(plot,plotsJson['plots'][plot]['plantType']));
     }
 
 
@@ -294,7 +332,6 @@ class Board extends React.Component {
       } else {
         actionArray.add(i);
       }
-      console.log(actionArray);
     }
 
     if (this.state.mode != "water" && this.state.icons[i]){
@@ -307,12 +344,15 @@ class Board extends React.Component {
     }
 
     if (this.state.mode == "admin" && this.state.plantable[i]){
-      //icons[i] = '👨‍🌾';
-      //console.log(document.getElementById('size').value);
-      //this.markUnPlantable(i,1);
-      this.setState({
-        mode: "sow"
-      });
+      this.changeMode("sow");
+    }
+
+    if (this.state.mode == "sow" && this.state.selectedType){
+      if (this.state.plantable[i] && this.radiusPlantable()){
+        icons[i] = plantDB['types'][this.state.selectedType]["sprite"];
+        this.markUnPlantable(this.state.hoverArray);
+        this.addPlant(i,this.state.selectedType)
+      }
     }
 
 
@@ -323,8 +363,16 @@ class Board extends React.Component {
     });
   }
 
+  radiusPlantable(){
+    var plantable = true;
+    this.state.hoverArray.forEach((item, i) => {
+      plantable = plantable && this.state.plantable[item];
+    });
+
+    return plantable;
+  }
+
   actionSelected(){
-    console.log(Array.from(this.state.actionArray).join(' '))
 
     //this.state.output = actionArray;
     this.setState({
@@ -335,18 +383,24 @@ class Board extends React.Component {
 
 
 
-  markUnPlantable(centre,type){
+  markUnPlantable(array){
+    //var plantable = this.state.plantable.slice();
 
     //var [row,col] = indexToGrid(centre);
 
-    this.plotArray(centre,type).forEach((item, i) => {
-      this.state.plantable[item] = false;
-    });
+    array.forEach((item, i) => {
 
+      this.state.plantable[item] = false;
+    })
+
+    // this.setState({
+    //   plantable: plantable
+    // });
+    // console.log(array)
   }
 
 
-  changeMode(){
+  changeMode(mode){
 
     // <select id="mode" onChange={() => this.changeMode()}>
     //   <option value="user">User</option>
@@ -355,8 +409,9 @@ class Board extends React.Component {
     // </select>
 
     this.setState({
-      mode: document.getElementById('mode').value,
-      actionArray: new Set()
+      mode: mode,
+      actionArray: new Set(),
+      selectedType: ""
     })
   }
 
@@ -370,6 +425,12 @@ class Board extends React.Component {
         row.push(this.renderPlot(y*maxCol + x));
       }
       rows.push(  <div className="plot-row">{row}</div>)
+    }
+
+    if (this.radiusPlantable()){
+
+    } else {
+
     }
 
 

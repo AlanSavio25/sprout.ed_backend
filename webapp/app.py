@@ -50,6 +50,65 @@ def addtojson():
 
     return render_template("plantdisplay.html", content=content)
 
+@app.route("/addPlant")
+def addPlant():
+    #name = request.form['plantname']
+    plot = request.args.get('plot', type = int)
+    x = request.args.get('x', type = int)
+    y = request.args.get('y', type = int)
+    type = request.args.get('type', type = str)
+
+    print(plot,x,y,type)
+
+
+    if ((x and y) and False):
+        with open("plant.json") as plantfile:
+            plantdata = json.load(plantfile)
+
+
+        with open('plant.json', 'w') as pfile:
+            plantdata['plants'].append({
+                'plantname': name,
+                'plantid': plantid,
+                'waterdate': waterdate
+            })
+            json.dump(plantdata, pfile , indent=2)
+
+
+
+        # add to action log
+        action = 'Added plant to plot ' + plot
+        addToActions(action)
+
+
+    return "Success"
+
+
+@app.route('/removePlot')
+def removePlot():
+    plot = request.args.get('plot', type = int)
+
+    print(plot)
+    if (plot == 79087):
+        with open('plant.json', 'r') as pfile:
+            content = json.load(pfile)
+
+        for plant in content['plants']:
+            if (plant['plantid'] == str(removalid)):
+                content['plants'].remove(plot)
+
+        with open('plant.json', 'w') as pfile:
+            json.dump(content, pfile , indent=2)
+
+        action = 'Removed plant from plot ' + plot
+        addToActions(action)
+
+
+
+    return "Success"
+
+
+
 
 @app.route("/removethis" , methods = ['POST'])
 def removeFromJson():
