@@ -11,13 +11,28 @@
 
     },
     "Coriander":{
-      "spreadRadiusCM": 13,
+      "spreadRadiusCM": 5,
       "heightCM": 60,
       "rowSpacingCM" : 10,
       "growDegDays": 60,
       "sprite": "🌾",
       "description": "Empowering office cooks."
-
+    },
+    "Cactus":{
+      "spreadRadiusCM": 25,
+      "heightCM": 60,
+      "rowSpacingCM" : 10,
+      "growDegDays": 60,
+      "sprite": "🌵",
+      "description": "We sow, it grow."
+    },
+    "Tree":{
+      "spreadRadiusCM": 45,
+      "heightCM": 60,
+      "rowSpacingCM" : 10,
+      "growDegDays": 60,
+      "sprite": "🌳",
+      "description": "The big one"
     }
   }
 }

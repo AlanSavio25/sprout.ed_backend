@@ -57,6 +57,7 @@ class Board extends React.Component {
     var icon = this.state.icons[i];
     var plantable = this.state.plantable[i];
     var mode = this.state.mode;
+    var plantZone = false;
 
     if (mode == "admin"){
       if (plantable){
@@ -74,19 +75,45 @@ class Board extends React.Component {
       if (this.state.actionArray.has(i)){
         icon = '💧';
       }
+    } else if (mode == "sow" && this.state.selectedType){
+      if (this.state.hoverGrid == i){
+        icon = plantDB['types'][this.state.selectedType]["sprite"];
+        console.log(icon)
+      }
+      if (this.withinRadius(this.state.hoverGrid,i)){
+        plantZone = true;
+      }
     }
 
     var liClasses = classList({
       'plot': true,
-      'plantable': plantable
+      'plantable': plantable,
+      'plantZone': plantZone
     });
 
     return (
-      <div  className={liClasses}  onClick={() => this.handleClick(i)}>
+      <div  className={liClasses}
+            onClick={() => this.handleClick(i)}
+            onMouseEnter={() => this.sowSelect(i)}
+            onMouseLeave={() => this.clearTemp()}>
       {icon}
       </div>
     );
   }
+
+  withinRadius(source,target){
+    var r = plantDB["types"][this.state.selectedType]["spreadRadiusCM"]/10;
+    var [sourceX,sourceY] = indexToGrid(source);
+    var [targetX,targetY] = indexToGrid(target);
+    return ((targetX <= sourceX + r) &&
+            (targetX >= sourceX - r) &&
+            (targetY <= sourceY + r) &&
+            (targetY >= sourceY - r) )
+  }
+
+
+
+
 
   renderSidebar(){
 
@@ -114,6 +141,8 @@ class Board extends React.Component {
           <h4>Overview ({this.state.mode})</h4>
           <div className="message">This plant is called {name}</div>
           <div className="message">This plant was last watered on {waterdate}</div>
+          {image}
+
         </div>
       );
     } else if (this.state.mode == "admin"){
@@ -148,14 +177,41 @@ class Board extends React.Component {
   }
 
   renderPlant(type){
-    return (
-      <div className="plant-row">
-        <div className="sprite">{plantDB['types'][type]['sprite']}</div>
-        <div className="name">{type}</div>
-        <div className="">{plantDB['types'][type]['description']}</div>
+    var liClasses = classList({
+      'plant-row': true,
+      'selected': (type==this.state.selectedType)
+    });
 
+    return (
+      <div className={liClasses} onClick={() => this.selectType(type)}>
+        <div className="sprite">{plantDB['types'][type]['sprite']}</div>
+        <div className="details">
+          <div className="typeName">{type}</div>
+          <div className="">{plantDB['types'][type]['description']}</div>
+          <div className="">Plant spread = {plantDB['types'][type]['spreadRadiusCM']}cm</div>
+        </div>
       </div>
     );
+  }
+
+  selectType(type){
+    console.log(type);
+    this.setState({
+      selectedType: type
+    });
+  }
+
+  sowSelect(grid){
+    this.setState({
+      hoverGrid: grid,
+      //output: `hovered at ${grid}`
+    });
+  };
+
+  clearTemp(){
+    this.setState({
+      hoverGrid: -100
+    });
   }
 
 
@@ -167,7 +223,10 @@ class Board extends React.Component {
       plantable: Array(maxCol*maxRow).fill(true),
       mode: pageMode,
       output: "",
-      actionArray: new Set()
+      actionArray: new Set(),
+      selectedType: "",
+      hoverGrid: -100,
+
     };
 
     this.sideBar=  React.createRef();

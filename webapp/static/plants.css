@@ -9,7 +9,7 @@
 }
 
 .plot {
-  background: #8e2828cc;
+  background: #87481bf2;
   border: 1px solid transparent;
   float: left;
   font-size: 24px;
@@ -68,4 +68,42 @@
 .game {
   display: flex;
   flex-direction: row;
+}
+
+.plant-row{
+  text-align: left;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 15px;
+  background: #0901;
+  border: 1px solid transparent;
+}
+
+.selected.plant-row{
+  border:1px solid #090
+}
+
+.plant-row > .details{
+  display: inline-block;
+  margin-left: 25px;
+}
+
+.details > .typeName{
+  font-weight: bold;
+}
+
+.plant-row > .sprite{
+  padding: 4px;
+  display: inline-block;
+  border-radius: 50px;
+  background: #ddd9;
+}
+
+
+.plantZone{
+  background: #8e2828cc; /*#ddd9;*/
+}
+
+.plantable.plantZone{
+  background: #0b09;
 }
