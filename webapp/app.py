@@ -61,23 +61,23 @@ def addPlant():
     print(plot,x,y,type)
 
 
-    if ((x and y) and False):
-        with open("plant.json") as plantfile:
+    if ((x and y) and type):
+        with open("plots.json") as plantfile:
             plantdata = json.load(plantfile)
 
 
-        with open('plant.json', 'w') as pfile:
-            plantdata['plants'].append({
-                'plantname': name,
-                'plantid': plantid,
-                'waterdate': waterdate
-            })
+        with open('plots.json', 'w') as pfile:
+            plantdata['plots'][plot] = {
+                'plantName': "testName",
+                'plantType': type,
+                'waterDate': "2020-02-22"
+                }
             json.dump(plantdata, pfile , indent=2)
 
 
 
         # add to action log
-        action = 'Added plant to plot ' + plot
+        action = 'Added plant to plot ' + str(plot)
         addToActions(action)
 
 
@@ -89,18 +89,18 @@ def removePlot():
     plot = request.args.get('plot', type = int)
 
     print(plot)
-    if (plot == 79087):
-        with open('plant.json', 'r') as pfile:
+    if (plot):
+        with open('plots.json', 'r') as pfile:
             content = json.load(pfile)
 
-        for plant in content['plants']:
-            if (plant['plantid'] == str(removalid)):
-                content['plants'].remove(plot)
+        if (str(plot) in content['plots']):
+            #content['plots'].remove(str(plot))
+            del content['plots'][str(plot)]
 
-        with open('plant.json', 'w') as pfile:
+        with open('plots.json', 'w') as pfile:
             json.dump(content, pfile , indent=2)
 
-        action = 'Removed plant from plot ' + plot
+        action = 'Removed plant from plot ' + str(plot)
         addToActions(action)
 
 
