@@ -83,6 +83,7 @@ class Board extends React.Component {
 
     if (mode == "admin"){
       if (plantable){
+        //console.log(`${i} is plantable`)
         icon = '➕';
       }
       if (this.state.actionArray.has(i)){
@@ -165,9 +166,6 @@ class Board extends React.Component {
       if (this.withinEuclidean(centreX,centreY,i,type)) plots.push(i);
       //if (this.withinManhattan(centreX,centreY,i,type)) plots.push(i);
     }
-    plots.forEach((item, i) => {
-      console.log(item);
-    });
 
     return plots;
   }
@@ -178,6 +176,8 @@ class Board extends React.Component {
 
   renderSidebar(){
 
+    var action = (this.state.mode == "admin")? "Remove" : "Water";
+
     if ((this.state.mode == "admin" || this.state.mode == "user") && this.state.actionArray.size == 1){
       var plot = this.state.actionArray.values().next().value
       if (plot in plotsJson['plots']){
@@ -187,36 +187,45 @@ class Board extends React.Component {
         if (plot == 99){
           var imageSrc =  `\\static\\plant.jpg?d=${Date.now()}`;
         }
-        var image = <img src={imageSrc}  className="imageBox" alt="plotPlantPhoto"></img>;
+        var image = <img src={imageSrc}  className="imageBox" alt="There is no image for this plant."></img>;
         //console.log(image);
       }
     }
 
-    var action = (this.state.mode == "admin")? "Remove" : "Water";
 
 
 
     if (this.state.mode == "user"){
       return (
         <div>
-          <h4>Overview ({this.state.mode})</h4>
+          <h4>Overview ({this.state.mode} mode)</h4>
           <div className="message">This plant is called {name}</div>
           <div className="message">This plant was last watered on {waterdate}</div>
           {image}
 
         </div>
       );
-    } else if (this.state.mode == "admin"){
+    } else if (this.state.mode == "admin" && this.state.actionArray.size == 1){
       return (
         <div>
-          <h4>Overview ({this.state.mode})</h4>
-          <button className="waterButton" onClick={() => this.actionSelected()}>{action}</button>
+          <h4>Overview ({this.state.mode} mode)</h4>
           <div className="message">This plant was last watered on {waterdate}</div>
           <div className="message">This plant is called {name}</div>
           <div className="message">Plot {plot}, co-ords ({indexToGrid(plot)[0]},{indexToGrid(plot)[1]})</div>
-
           {image}
           <a className="button" id="view_image_button" onClick={() => this.removePlant(plot)}>Remove {name}?</a>
+
+
+        </div>);
+    } else if (this.state.mode == "admin"){
+
+      return (
+        <div>
+          <h4>Overview ({this.state.mode} mode)</h4>
+          <div className="message">Please select a plant or go into watering mode.</div>
+          <a className="button" onClick={() => this.changeMode("water")}>Water mode</a>
+          <a className="button" onClick={() => this.changeMode("sow")}>Sow mode</a>
+
         </div>
       );
 
@@ -227,7 +236,7 @@ class Board extends React.Component {
       }
       return (
         <div>
-          <h4>Overview ({this.state.mode})</h4>
+          <h4>Overview ({this.state.mode} mode)</h4>
           <div className="plantSelector">
             {plants}
           </div>
@@ -235,6 +244,16 @@ class Board extends React.Component {
         </div>
       )
 
+    } else if (this.state.mode == "water"){
+      return(
+        <div>
+          <h4>Overview ({this.state.mode} mode)</h4>
+          {this.state.actionArray.size} plants selected for watering.
+          <a className="button" onClick={() => this.actionSelected()}>{action} selected</a>
+          <br></br>
+          <a className="button" onClick={() => this.changeMode("admin")}>Exit</a>
+        </div>
+      )
     }
 
   }
@@ -258,7 +277,20 @@ class Board extends React.Component {
   }
 
   removePlant(plot){
-    fetch(`./removePlot?plot=${plot}`)
+    this.setState({
+      actionArray: new Set(),
+      plantable: Array(maxCol*maxRow).fill(true)
+    });
+
+    if (plot in plotsJson['plots']){
+      console.log(plotsJson['plots'])
+      delete plotsJson['plots'][plot];
+      console.log(plotsJson['plots'])
+    };
+
+    this.setupFromJson();
+
+    fetch(`./removePlot?plot=${plot}`);
   }
 
   addPlant(plot,type){
@@ -306,15 +338,35 @@ class Board extends React.Component {
 
     this.sideBar=  React.createRef();
 
+    this.setupFromJson();
 
+
+  }
+
+  setupFromJson(){
+    console.log("Setting up")
+    console.log(plotsJson['plots'])
+    console.log("======")
     for (var plot in plotsJson['plots']){
-      var icon = plotsJson['plots'][plot]['plantIcon'];
+      //var icon = plotsJson['plots'][plot]['plantIcon'];
+      var plantType = plotsJson['plots'][plot]['plantType']
+      if (plantType in plantDB['types']){
+        var icon = plantDB['types'][plantType]['sprite'];
+
+      } else {
+        var icon = plantDB['']
+
+      }
       this.state.icons[plot] = icon;
       //this.state.icons[plot] =  <img src="/static/plantPics/p1.png" alt="plot1 pic"></img>;
       //console.log(this.plotArray(plot,plotsJson['plots'][plot]['plantType']));
+      //console.log(`marking with ${plot} and ${plotsJson['plots'][plot]['plantType']}`);
       this.markUnPlantable(this.plotArray(plot,plotsJson['plots'][plot]['plantType']));
     }
-
+    console.log("SetupfromjsonBottom")
+    console.log(this.state.icons);
+    console.log(this.state.plantable);
+    console.log("======")
 
   }
 
@@ -384,14 +436,20 @@ class Board extends React.Component {
 
 
   markUnPlantable(array){
-    //var plantable = this.state.plantable.slice();
+    const plantable = this.state.plantable.slice();
 
     //var [row,col] = indexToGrid(centre);
 
-    array.forEach((item, i) => {
+    // array.forEach((item, i) => {
+    //
+    //   plantable[item] = false;
+    // })
 
-      this.state.plantable[item] = false;
-    })
+    for (var i in array){
+      plantable[array[i]] = false;
+    }
+
+    this.state.plantable = plantable;
 
     // this.setState({
     //   plantable: plantable
@@ -418,6 +476,9 @@ class Board extends React.Component {
   render(){
     const workspace = "Appleton 3";
     const rows = [];
+    console.log("RENDER")
+    console.log(this.state.plantable)
+    console.log("=====")
 
     for (var y = 0; y<maxRow;y++){
       const row = [];
@@ -427,11 +488,6 @@ class Board extends React.Component {
       rows.push(  <div className="plot-row">{row}</div>)
     }
 
-    if (this.radiusPlantable()){
-
-    } else {
-
-    }
 
 
     return (
