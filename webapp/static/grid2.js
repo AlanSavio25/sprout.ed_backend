@@ -277,20 +277,22 @@ class Board extends React.Component {
   }
 
   removePlant(plot){
-    this.setState({
-      actionArray: new Set(),
-      plantable: Array(maxCol*maxRow).fill(true)
-    });
-
-    if (plot in plotsJson['plots']){
-      console.log(plotsJson['plots'])
-      delete plotsJson['plots'][plot];
-      console.log(plotsJson['plots'])
-    };
-
-    this.setupFromJson();
+    // 
+    // this.setState({
+    //   actionArray: new Set(),
+    //   plantable: Array(maxCol*maxRow).fill(true)
+    // });
+    //
+    // if (plot in plotsJson['plots']){
+    //   console.log(plotsJson['plots'])
+    //   delete plotsJson['plots'][plot];
+    //   console.log(plotsJson['plots'])
+    // };
+    //
+    // this.setupFromJson();
 
     fetch(`./removePlot?plot=${plot}`);
+    window.location.reload(true);
   }
 
   addPlant(plot,type){
