@@ -20,9 +20,15 @@
         </header>
         <div class="plant_dashboard" id="root"></div>
 
+        <div class="graphs">
+          <div id="side_graphs">
+                <canvas id="temp" height="240px" display="block"></canvas>
+                <canvas id="m2c" height="240px" display="inline"></canvas>
+          </div>
 
-        <div id="action_log">
-          <table id="action_table"></table>
+          <div id="action_log">
+            <table id="action_table"></table>
+          </div>
         </div>
 
         <script type="text/javascript">
@@ -32,6 +38,7 @@
               // searching: false,
               ordering: false,
               stateSave : true,
+              lengthChange: false,
               ajax: {
                   url: '/actions.json',
                   dataSrc: 'actions'
@@ -44,15 +51,15 @@
         </script>
 
         <div class= "graphs">
-          <div class ="graph_cont">
+          <!-- <div class ="graph_cont">
             <canvas id="temp" width="450px" height="300px" display="inline"></canvas>
-          </div>
+          </div> -->
           <div class ="graph_cont">
             <canvas id="humidity" width="450px" height="300px" display="inline"></canvas>
           </div>
-          <div class ="graph_cont">
+          <!-- <div class ="graph_cont">
             <div><canvas id="m2c" width="450px" height="300px"></canvas></div>
-          </div>
+          </div> -->
         </div>
 
         <footer>
@@ -155,7 +162,7 @@
               options: {
                   title: {
                    display: true,
-                   text: 'M1 Readings'
+                   text: 'Moisture Readings'
                   }
               }
           });
