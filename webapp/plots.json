@@ -1,48 +1,14 @@
 {
   "plots": {
-    "0" : {
-      "plantName": "Basil",
-      "plantIcon": "🌷",
-      "waterDate": "2020-02-20",
-      "plantType": "Basil"
+    "107": {
+      "plantName": "testName",
+      "plantType": "Coriander",
+      "waterDate": "2020-02-22"
     },
-    "10" : {
-      "plantName": "Matilda",
-      "plantIcon": "🌹",
-      "waterDate": "2020-02-21",
-      "plantType": "Basil"
-
-    },
-    "12" : {
-      "plantName": "Jamiroquai",
-      "plantIcon": "🌼",
-      "waterDate": "2020-02-22",
-      "plantType": "Basil"
-    },
-    "53" : {
-      "plantName": "AlanAlan",
-      "plantIcon": "🍄",
-      "waterDate": "2020-02-23",
-      "plantType": "Basil"
-    },
-    "78" : {
-      "plantName": "Martha",
-      "plantIcon": "🎋",
-      "waterDate": "2020-02-24",
-      "plantType": "Cactus"
-    },
-    "100" : {
-      "plantName": "Shantelle",
-      "plantIcon": "☘️",
-      "waterDate": "2020-02-25",
-      "plantType": "Coriander"
-
-    },
-    "99" : {
-      "plantName": "Rosie",
-      "plantIcon": "🌱",
-      "waterDate": "2020-02-27",
-      "plantType": "Coriander"
+    "19": {
+      "plantName": "testName",
+      "plantType": "Coriander",
+      "waterDate": "2020-02-22"
     }
   }
 }
