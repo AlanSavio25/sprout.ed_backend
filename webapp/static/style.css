@@ -22,6 +22,7 @@ body {
   vertical-align: middle;
   position: absolute;
   left: 20px;
+  margin-top: 4px;
 }
 
 footer {
@@ -118,6 +119,7 @@ header {
   margin:auto;
   margin-bottom: 50px;
 }
+
 .nav_buttons {
     display: inline-block;
     position: absolute;
@@ -144,4 +146,14 @@ input[type=range][orient=vertical]
 
 #y{
   margin-top: 20px;
+}
+
+#action_log {
+  width: 60%;
+  display: inline-block;
+}
+
+#side_graphs {
+  width: 40%;
+  display: block;;
 }

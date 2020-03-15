@@ -1,14 +1,9 @@
 {
-  "plants": [
-    {
-      "plantname": "Matilda",
-      "plantid": "1",
-      "waterdate": "2020-02-27"
-    },
-    {
-      "plantname": "Basil",
-      "plantid": "2",
-      "waterdate": "2020-01-16"
+  "plots": {
+    "58": {
+      "plantName": "testName",
+      "plantType": "Coriander",
+      "waterdate": "2020-02-22"
     }
-  ]
+  }
 }
