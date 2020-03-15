@@ -1,1 +1,2 @@
-# sprout.ed_backend
+# sprout.ed
+The online repository for the sprouted farming robot
