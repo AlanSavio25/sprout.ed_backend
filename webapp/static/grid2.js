@@ -195,24 +195,37 @@ class Board extends React.Component {
 
 
 
-    if (this.state.mode == "user"){
+    if (this.state.mode == "user" && this.state.actionArray.size == 1){
       return (
         <div>
           <h4>Overview ({this.state.mode} mode)</h4>
           <div className="message">This plant is called {name}</div>
+          <br></br>
           <div className="message">This plant was last watered on {waterdate}</div>
+          <br></br>
           {image}
 
+        </div>
+      );
+    } else if (this.state.mode == "user"){
+      return(
+        <div>
+          <h4>Overview ({this.state.mode} mode)</h4>
+          <div className="message">Select a plant to view its information.</div>
         </div>
       );
     } else if (this.state.mode == "admin" && this.state.actionArray.size == 1){
       return (
         <div>
           <h4>Overview ({this.state.mode} mode)</h4>
-          <div className="message">This plant was last watered on {waterdate}</div>
           <div className="message">This plant is called {name}</div>
           <div className="message">Plot {plot}, co-ords ({indexToGrid(plot)[0]},{indexToGrid(plot)[1]})</div>
+          <br></br>
+          <div className="message">This plant was last watered on {waterdate}</div>
+          <br></br>
           {image}
+          <br></br>
+          <br></br>
           <a className="button" id="view_image_button" onClick={() => this.removePlant(plot)}>Remove {name}?</a>
 
 
@@ -222,10 +235,16 @@ class Board extends React.Component {
       return (
         <div>
           <h4>Overview ({this.state.mode} mode)</h4>
-          <div className="message">Please select a plant or go into watering mode.</div>
-          <a className="button" onClick={() => this.changeMode("water")}>Water mode</a>
+          <div className="message">Select a plant to view its information.</div>
+          <br></br>
+          <div className="message">Select a cross or click below to enter sow mode and add a new plant.</div>
+          <br></br>
+          <div className="message">Click below to water individual plants in watering mode.</div>
+          <br></br>
           <a className="button" onClick={() => this.changeMode("sow")}>Sow mode</a>
-
+          <br></br>
+          <br></br>
+          <a className="button" onClick={() => this.changeMode("water")}>Water mode</a>
         </div>
       );
 
@@ -248,8 +267,12 @@ class Board extends React.Component {
       return(
         <div>
           <h4>Overview ({this.state.mode} mode)</h4>
-          {this.state.actionArray.size} plants selected for watering.
-          <a className="button" onClick={() => this.actionSelected()}>{action} selected</a>
+          <div className="message">Select one or more plants and then click below to water them now.</div>
+          <br></br>
+          <div className="message">{this.state.actionArray.size} plants currently selected for watering.</div>
+          <br></br>
+          <a className="button" onClick={() => this.actionSelected()}>{action} now</a>
+          <br></br>
           <br></br>
           <a className="button" onClick={() => this.changeMode("admin")}>Exit</a>
         </div>
@@ -501,7 +524,6 @@ class Board extends React.Component {
         <div className="info_box">
           {this.renderSidebar()}
         </div>
-        <div className="message">Debug output = {this.state.output}</div>
       </div>
     );
   }
