@@ -3,6 +3,12 @@ body {
     color: #1b5e20;
     margin-top: 100px;
     margin-bottom: 50px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+  font-family: 'Timesnewroman', serif;
+
 }
 
 .button {
