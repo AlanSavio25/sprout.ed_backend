@@ -93,7 +93,7 @@ header {
     display: inline-block;
     padding: 10px;
     text-align: center;
-    width: 300px;
+    width: 320px;
     height: 425px;
     margin: 30px 30px 30px 10px;
     vertical-align: middle;
@@ -162,4 +162,43 @@ input[type=range][orient=vertical]
 #side_graphs {
   width: 40%;
   display: block;;
+}
+
+#spaceName{
+  display: inline;
+  height:80px;
+}
+
+#editNameButton{
+  border-radius: 25%;
+  padding: 14px;
+  margin-bottom:15px;
+}
+
+#spaceBox{
+  vertical-align:bottom;
+  margin:15px 0px;
+  padding: 10px 5px;
+  font-size: 25px;
+  background-color: #ddd9;
+  border-style: solid;
+  border-width: 0px 0px 1px 0px;
+  border-color: #4000;
+  border-radius:10px;
+}
+
+#origName{
+  color: #5559;
+  margin-right:10px;
+}
+
+
+#wateringTimes{
+  text-align: center;
+
+}
+
+.editB{
+  background-color: #0d0;
+  background: #ddd0;
 }

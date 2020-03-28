@@ -14,12 +14,25 @@
     <body>
         <header>
             <img class= "logo" src="/static/logo_green.png" alt="sprouted logo"/>
-            <h1 class="header">Appleton 3 - Admin</h1>
+            <div>
+              <a id="editNameButton" class="button editB" onclick="editName()">✏️</a>
+              <div id="spaceName">
+                <h1 id="origName" class="header">Appleton 3 </h1>
+                <h1 class="header">- Admin</h1>
+              </div>
+            </div>
             <div class="nav_buttons">
                 <a class="button" href="/">Home</a>
-                <a class="button" href="/overrides">Overrides</a>
+                <!-- <a class="button" href="/overrides">Overrides</a>-->
             </div>
         </header>
+        <div id="wateringTimes">
+          Running automated moisture checks and watering twice daily, at
+          <input id="appt-time" type="time" name="appt-time" value="07:30">
+           and at
+          <input id="appt-time" type="time" name="appt-time" value="18:30">
+          , with a daily water usage of <b>27ml</b>.
+        </div>
         <div class="plant_dashboard" id="root"></div>
 
         <div class="graphs">
@@ -172,6 +185,32 @@
 
 
           setInterval(addData, 1500)
+
+          function editName(){
+            var editB = "✏️";
+            var saveB = "✔︎";
+            var button = document.getElementById("editNameButton");
+            var space = document.getElementById("spaceName")
+
+            if (button.innerHTML == editB){
+              var currName = space.children[0].innerHTML;
+              space.innerHTML = `<input type="text" id="spaceBox" placeholder="${currName}">`;
+              button.innerHTML = saveB;
+              button.classList.remove('editB')
+
+            } else {
+              var name = space.children[0].value;
+              if (name == ""){
+                name = space.children[0].placeholder;
+              }
+              space.innerHTML = `<h1 id="origName"class="header">${name}</h1><h1 class="header">- Admin</h1>`;
+              button.innerHTML = editB;
+              button.classList.add('editB')
+            }
+
+
+
+          };
         </script>
     </body>
 
