@@ -204,3 +204,27 @@ input[type=range][orient=vertical]
   background-color: #0d0;
   background: #ddd0;
 }
+
+.timebox{
+  display:inline;
+}
+.timebox > div{
+  display:inline;
+}
+
+.timebox {
+  /*font-weight: bold;*/
+  font-style: italic;
+  background-color: #e8f5e9;
+  /*text-decoration: underline;
+  text-decoration-color: #bbb;*/
+
+  padding: 0px 5px;
+  border-radius: 5px
+}
+
+.timebox > input {
+  border:none;
+  border-radius: 5px;
+  background-color: #eee0;
+}
