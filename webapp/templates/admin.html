@@ -29,11 +29,11 @@
         <div id="wateringTimes">
           Running automated moisture checks and watering twice daily, at
           <div id="time1" class="timebox">
-            <a onclick="editTime('time1')">07:30</a>
+            <a onclick="editTime('time1')">✎07:30</a>
           </div>
           and at
           <div id="time2" class="timebox">
-            <a onclick="editTime('time2')">18:30</a>
+            <a onclick="editTime('time2')">✎18:30</a>
           </div>
           , with a daily water usage of <b>27ml</b>.
         </div>
@@ -217,12 +217,12 @@
             var elem = document.getElementById(timeBox);
             time = elem.children[0].value;
             time = time? time : "00:00";
-            elem.innerHTML = `<a onclick="editTime('${timeBox}')">${time}</a>`;
+            elem.innerHTML = `<a onclick="editTime('${timeBox}')">✎${time}</a>`;
           };
 
           function editTime(timeBox){
             var elem = document.getElementById(timeBox);
-            time = elem.children[0].innerHTML;
+            time = elem.children[0].innerHTML.slice(1);
             elem.innerHTML = `<input id="appt-time" type="time" name="appt-time" value="${time}"><div onclick="confirmTime('${timeBox}')">✔︎</div>`;
           };
 
