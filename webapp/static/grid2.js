@@ -264,7 +264,7 @@ class Board extends React.Component {
           <div className="plantSelector">
             {plants}
           </div>
-          <a className="button" onClick={() => this.changeMode("admin")}>Cancel</a>
+          <a className="button" onClick={() => this.changeMode("admin")}>Exit</a>
         </div>
       )
 
