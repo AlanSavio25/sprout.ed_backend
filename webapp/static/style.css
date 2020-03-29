@@ -98,6 +98,8 @@ header {
     margin: 30px 30px 30px 10px;
     vertical-align: middle;
     color: #003300; /* dark green */
+    overflow: auto;
+
 }
 
 .plant_dashboard {

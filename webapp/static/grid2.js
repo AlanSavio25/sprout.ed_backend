@@ -226,7 +226,12 @@ class Board extends React.Component {
           {image}
           <br></br>
           <br></br>
-          <a className="button" id="view_image_button" onClick={() => this.removePlant(plot)}>Remove {name}?</a>
+          <a className="button" id="view_image_button" onClick={() => alert("I do nothing")}>Rename {name}?</a>
+
+          <br></br>
+          <br></br>
+          <a className="button" id="removePlant" onClick={() => this.removePlant(plot)}>Remove {name}?</a>
+
 
 
         </div>);
@@ -300,7 +305,7 @@ class Board extends React.Component {
   }
 
   removePlant(plot){
-    // 
+    //
     // this.setState({
     //   actionArray: new Set(),
     //   plantable: Array(maxCol*maxRow).fill(true)
