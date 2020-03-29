@@ -15,9 +15,9 @@
         <header>
             <img class= "logo" src="/static/logo_green.png" alt="sprouted logo"/>
             <div>
-              <a id="editNameButton" class="button editB" onclick="editName()">✏️</a>
+              <a id="editNameButton" class="button editB" onclick="editName()"></a>
               <div id="spaceName">
-                <h1 id="origName" class="header" onclick="editName()">Appleton 3 </h1>
+                <h1 id="origName" class="header" onclick="editName()"><small><small>✎</small></small> Appleton 3 </h1>
                 <h1 class="header">- Admin</h1>
               </div>
             </div>
@@ -191,13 +191,13 @@
           setInterval(addData, 1500)
 
           function editName(){
-            var editB = "✏️";
+            var editB = "";
             var saveB = "✔︎";
             var button = document.getElementById("editNameButton");
             var space = document.getElementById("spaceName")
 
             if (button.innerHTML == editB){
-              var currName = space.children[0].innerHTML;
+              var currName = space.children[0].innerHTML.split(">")[4];
               space.innerHTML = `<input type="text" id="spaceBox" placeholder="${currName}">`;
               button.innerHTML = saveB;
               button.classList.remove('editB')
@@ -207,7 +207,7 @@
               if (name == ""){
                 name = space.children[0].placeholder;
               }
-              space.innerHTML = `<h1 id="origName"class="header">${name}</h1><h1 class="header">- Admin</h1>`;
+              space.innerHTML = `<h1 id="origName"class="header" onclick="editName()"><small><small>✎</small></small> ${name}</h1><h1 class="header">- Admin</h1>`;
               button.innerHTML = editB;
               button.classList.add('editB')
             }

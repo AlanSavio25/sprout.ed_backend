@@ -183,6 +183,7 @@ input[type=range][orient=vertical]
   padding: 10px 5px;
   font-size: 25px;
   background-color: #ddd9;
+
   border-style: solid;
   border-width: 0px 0px 1px 0px;
   border-color: #4000;
@@ -190,8 +191,13 @@ input[type=range][orient=vertical]
 }
 
 #origName{
-  color: #5559;
+  /*color: #5559;*/
+  color: #1b5e20;
+  background-color: #6662;
   margin-right:10px;
+  padding:10px;
+  border-radius:10px;
+  margin:0px;
 }
 
 
@@ -215,7 +221,7 @@ input[type=range][orient=vertical]
 .timebox {
   /*font-weight: bold;*/
   font-style: italic;
-  background-color: #e8f5e9;
+  background-color: #6662;
   /*text-decoration: underline;
   text-decoration-color: #bbb;*/
 
