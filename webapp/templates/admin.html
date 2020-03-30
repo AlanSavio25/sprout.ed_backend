@@ -13,7 +13,21 @@
     </head>
     <body>
         <header>
-            <img class= "logo" src="/static/logo_green.png" alt="sprouted logo"/>
+            <div class="headerLeft">
+              <img class= "logo" src="/static/logo_green.png" alt="sprouted logo"/>
+              <div class="statuses">
+                <div class="statusTitle">Status</div>
+                <hr></hr>
+                <div class="statusBox">
+                  <div class="statusIndicator statusError"></div>
+                  <a class="statusDescription">Motors Connected</a>
+                </div>
+                <div class="statusBox">
+                  <div class="statusIndicator statusWarning"></div>
+                  <a class="statusDescription">EV3 Connection</a>
+                </div>
+              </div>
+            </div>
             <div>
               <a id="editNameButton" class="button editB" onclick="editName()"></a>
               <div id="spaceName">

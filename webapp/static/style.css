@@ -26,8 +26,8 @@ h1 {
   max-width: 150px;
   display: inline-block;
   vertical-align: middle;
-  position: absolute;
-  left: 20px;
+  /*position: absolute;
+  /*left: 20px;*/
   margin-top: 4px;
 }
 
@@ -342,4 +342,58 @@ select:disabled::-ms-expand {
 
 .negButton{
   background: #700;
+}
+
+.headerLeft{
+  position: absolute;
+  left: 20px;
+}
+
+.headerLeft > div{
+  display:inline-block;
+}
+
+.statuses{
+  border: 1px solid #6665;
+  vertical-align: middle;
+  padding:5px;
+  border-radius:10px;
+}
+
+.statuses > hr {
+  border: 0px solid #6665;
+  border-top:1px  solid #6665;
+  margin: 3px 0px;
+}
+
+.statusBox{
+  font-size:0.7em;
+  /*display: inline-block;*/
+  text-align:left;
+}
+
+.statusIndicator{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background-color:green;
+  /*display:inline-block;*/
+  display:inline-block;
+
+}
+
+.statusTitle{
+  font-size:0.8em;
+}
+
+.statusDescription{
+  margin: 0px 3px;
+}
+
+.statusWarning{
+  background-color:orange;
+}
+
+.statusError{
+  background-color:red;
 }
