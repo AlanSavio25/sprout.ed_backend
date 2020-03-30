@@ -313,7 +313,20 @@
           document.getElementById("podHolder").append(creator.firstChild);
         }
         function deletePod(number){
+          maxElem = document.getElementById("podHolder").children.length;
           document.getElementById(`pod${number}`).remove();
+          console.log(maxElem);
+          for (i = number+1; i<= maxElem; i++){
+            console.log(i, maxElem);
+
+            pod = document.getElementById(`pod${i}`);
+            console.log(pod);
+            pod.children[0].innerHTML = `${i-1}`;
+            pod.children[2].setAttribute( "onClick",`deletePod(${i-1})`);
+            pod.id = `pod${i-1}`;
+            console.log(pod);
+
+          }
         }
 
         function overlayOn() {
