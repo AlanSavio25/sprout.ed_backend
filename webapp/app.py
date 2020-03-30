@@ -6,9 +6,9 @@ from flask import Flask, render_template, jsonify, request
 import client
 import json
 import time
-from timeloop import Timeloop
+#from timeloop import Timeloop
 from datetime import timedelta
-tl = Timeloop()
+#tl = Timeloop()
 
 raspPi = False
 if (raspPi):
@@ -247,9 +247,15 @@ def image():
     time.sleep(1)
     return
 
-@tl.job(interval=timedelta(seconds=60))
-def sample_job_every_60s():
-    print("60s : {}".format(time.ctime()))
+
+@app.route('/containers')
+def conted():
+    return render_template('containers.html')
+
+
+#@tl.job(interval=timedelta(seconds=60))
+#def sample_job_every_60s():
+#    print("60s : {}".format(time.ctime()))
 
 
 def addToActions(action):
@@ -266,6 +272,6 @@ def addToActions(action):
 
 
 if __name__ == '__main__':
-    tl.start(block=False)
+    #tl.start(block=False)
     # If debug is set to true, another timeloop instance is started for some reason
     app.run(host='0.0.0.0', debug=False)
