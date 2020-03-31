@@ -5,16 +5,104 @@
         <link rel="stylesheet" href="/static/style.css" />
         <link rel="shortcut icon" type="image/png" href="/static/favicon.png"/>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+        <style>
 
+          /* The popup form - hidden by default */
+          .form-popup {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 15px;
+            border: 3px solid #f1f1f1;
+            z-index: 9;
+          }
+          
+          /* Add styles to the form container */
+          .form-container {
+            max-width: 300px;
+            padding: 10px;
+            background-color: white;
+          }
+          
+          /* Full-width input fields */
+          .form-container input[type=text], .form-container input[type=password] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            border: none;
+            background: #f1f1f1;
+          }
+          
+          /* When the inputs get focus, do something */
+          .form-container input[type=text]:focus, .form-container input[type=password]:focus {
+            background-color: #ddd;
+            outline: none;
+          }
+          
+          /* Set a style for the submit/login button */
+          .form-container .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px 20px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom:10px;
+            opacity: 0.8;
+          }
+          
+          /* Add a red background color to the cancel button */
+          .form-container .cancel {
+            background-color: red;
+          }
+          
+          /* Add some hover effects to buttons */
+          .form-container .btn:hover, .open-button:hover {
+            opacity: 1;
+          }
+          </style>
     </head>
     <body>
+
+      <script>
+
+  
+        function openForm() {
+          document.getElementById("myForm").style.display = "block";
+        }
+        function checkPswd() {
+                var confirmUsername = "admin";
+                console.log(confirmUsername);
+                var confirmPassword = "adminadmin";
+                console.log(confirmPassword);
+                var password = document.getElementById("1234").value;
+                console.log(password);
+                var username = document.getElementById("123").value;
+                console.log(username);
+                if (password == confirmPassword && username == confirmUsername) {
+                  window.location.href = "/admin";
+                  alert("Matches");
+                }
+                else{
+                  alert("Passwords do not match.");
+                  return false;
+                }
+                
+                
+            }
+        function closeForm() {
+          document.getElementById("myForm").style.display = "none";
+        }
+        </script>
+
+
         <header>
             <div class="headerLeft">
               <img class="logo" src="/static/logo_green.png" alt="sprouted logo"/>
             </div>
             <h1 class="header">Appleton 3 - Home</h1>
             <div class="nav_buttons">
-                <a class="button" href="/admin">Admin</a>
+                <a class="button" onclick="openForm()">Admin</a>
             </div>
         </header>
         <div class="plant_dashboard" id="root"></div>
@@ -29,6 +117,23 @@
             <p>© 2020 sprout.ed - contact us at <a href="mailto:sprouted04@gmail.com">sprouted04@gmail.com</a></p>
         </footer>
     </body>
+    
+    <div class="form-popup" id="myForm">
+      <form class="form-container" action="#">
+  
+      <label for="usrname"><b>Username</b></label>
+      <input id="123" type="text" name="usrname" required>
+  
+      <label for="psw"><b>Password</b></label>
+      <input id = "1234" type="password" name="psw" required>
+  
+      <button type="submit" class="btn" onclick="checkPswd();">Login</button>
+      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+  
+  </div>
+    
+    
     <script>
     function toggle_image() {
       const image_div = document.querySelector('#image_viewer');
