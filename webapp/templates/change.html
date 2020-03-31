@@ -34,13 +34,23 @@ div {
 </style>
 <body>
 
+<script>
+  function changePswd() {
+    var oldpass = document.getElementById("lastpass").value;
+    var newpass = document.getElementById("newpass").value;
+    alert("Password changed from";)
+  }
+</script>
 
 <div>
   <form action="#">
-  
+    
 
-    <label for="lname">Password</label>
+    <label for="opass">Old Password</label>
     <input type="text" id="lastpass" name="lastpass">
+    <label for="npass">New Password</label>
+    <input type="text" id="oldpass" name="lastpass">
+    <button type="submit" class="btn" onclick="changePswd();">Login</button>
   </form>
 </div>
 

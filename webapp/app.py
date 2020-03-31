@@ -22,6 +22,11 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 def actions():
     return render_template('actions.json')
 
+@app.route("/change")
+
+def change():
+    return render_template('change.html')
+
 @app.route("/addthis" , methods = ['POST'])
 def addtojson():
     name = request.form['plantname']
