@@ -1,47 +1,27 @@
 {
   "plots": {
     "16": {
-      "plantName": "testName",
+      "plantName": "A",
       "plantType": "Nasturtium",
       "waterDate": "2020-02-22"
     },
-    "56": {
-      "plantName": "testName",
-      "plantType": "Boston Fern",
-      "waterDate": "2020-02-22"
-    },
-    "98": {
-      "plantName": "testName",
-      "plantType": "Coriander",
-      "waterDate": "2020-02-22"
-    },
-    "129": {
-      "plantName": "testName",
-      "plantType": "Basil",
-      "waterDate": "2020-02-22"
-    },
-    "132": {
-      "plantName": "testName",
-      "plantType": "Basil",
-      "waterDate": "2020-02-22"
-    },
     "79": {
-      "plantName": "testName",
+      "plantName": "Gerald",
       "plantType": "Geranium",
       "waterDate": "2020-02-22"
     },
     "20": {
-      "plantName": "testName",
+      "plantName": "Corry",
       "plantType": "Nasturtium",
       "waterDate": "2020-02-22"
     },
     "121": {
-      "plantName": "testName",
+      "plantName": "Basil",
       "plantType": "Basil",
       "waterDate": "2020-02-22"
     },
     "124": {
-      "plantName": "testName",
+      "plantName": "Seedy",
       "plantType": "Coriander",
       "waterDate": "2020-02-22"
     },
@@ -55,23 +35,23 @@
       "plantType": "Coriander",
       "waterDate": "2020-02-22"
     },
-    "37": {
-      "plantName": "testName",
-      "plantType": "Coriander",
+    "129": {
+      "plantName": "a",
+      "plantType": "Basil",
       "waterDate": "2020-02-22"
     },
-    "52": {
-      "plantName": "testName",
-      "plantType": "Coriander",
+    "132": {
+      "plantName": "Greg",
+      "plantType": "Basil",
       "waterDate": "2020-02-22"
     },
-    "51": {
-      "plantName": "testName",
-      "plantType": "Coriander",
+    "56": {
+      "plantName": "Barty",
+      "plantType": "Boston Fern",
       "waterDate": "2020-02-22"
     },
-    "76": {
-      "plantName": "testName",
+    "98": {
+      "plantName": "null",
       "plantType": "Coriander",
       "waterDate": "2020-02-22"
     }
