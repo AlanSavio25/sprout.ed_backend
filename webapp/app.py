@@ -68,7 +68,7 @@ def addPlant():
 
         with open('plots.json', 'w') as pfile:
             plantdata['plots'][plot] = {
-                'plantName': "testName",
+                'plantName': "My" + type,
                 'plantType': type,
                 'waterDate': "2020-02-22"
                 }
@@ -103,7 +103,27 @@ def removePlot():
         action = 'Removed plant from plot ' + str(plot)
         addToActions(action)
 
+    return "Success"
 
+@app.route('/renamePlant')
+def renamePlant():
+    plot = request.args.get('plot', type = int)
+    name = request.args.get('name', type = str)
+
+    print(plot)
+    if (plot):
+        with open('plots.json', 'r') as pfile:
+            content = json.load(pfile)
+
+        if (str(plot) in content['plots']):
+            #content['plots'].remove(str(plot))
+            content['plots'][str(plot)]['plantName'] = name
+
+        with open('plots.json', 'w') as pfile:
+            json.dump(content, pfile , indent=2)
+
+        action = 'Renamed plant from plot ' + str(plot) + ' to ' + name
+        addToActions(action)
 
     return "Success"
 

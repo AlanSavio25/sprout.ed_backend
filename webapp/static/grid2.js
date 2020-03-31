@@ -181,6 +181,7 @@ class Board extends React.Component {
     if ((this.state.mode == "admin" || this.state.mode == "user") && this.state.actionArray.size == 1){
       var plot = this.state.actionArray.values().next().value
       if (plot in plotsJson['plots']){
+        var plantt = plotsJson['plots'][plot]['plantType'];
         var waterdate = plotsJson['plots'][plot]['waterDate'];
         var name = plotsJson['plots'][plot]['plantName'];
         var imageSrc = `/static/plantPics/p${plot}.png`;
@@ -199,7 +200,7 @@ class Board extends React.Component {
       return (
         <div>
           <h4>Overview ({this.state.mode} mode)</h4>
-          <div className="message">This plant is called {name}</div>
+          <div className="message">This {plantt} is called {name}</div>
           <br></br>
           <div className="message">This plant was last watered on {waterdate}</div>
           <br></br>
@@ -218,7 +219,7 @@ class Board extends React.Component {
       return (
         <div>
           <h4>Overview ({this.state.mode} mode)</h4>
-          <div className="message">This plant is called {name}</div>
+          <div className="message">This {plantt} is called {name}</div>
           <div className="message">Plot {plot}, co-ords ({indexToGrid(plot)[0]},{indexToGrid(plot)[1]})</div>
           <br></br>
           <div className="message">This plant was last watered on {waterdate}</div>
@@ -226,7 +227,7 @@ class Board extends React.Component {
           {image}
           <br></br>
           <br></br>
-          <a className="button" id="view_image_button" onClick={() => alert("I do nothing")}>Rename {name}?</a>
+          <a className="button" id="view_image_button" onClick={() => this.renamePlant(plot)}>Rename {name}?</a>
 
           <br></br>
           <br></br>
@@ -318,14 +319,27 @@ class Board extends React.Component {
     // };
     //
     // this.setupFromJson();
+    var dialog = "Sprout.ed is not able to remove plants itself. \n\nPlease confirm that this plant is physically not present in the plantbed before continuing."
+    if (window.confirm(dialog)){
+      fetch(`./removePlot?plot=${plot}`);
+      window.location.reload(true);
+    }
 
-    fetch(`./removePlot?plot=${plot}`);
-    window.location.reload(true);
+  }
+
+  renamePlant(plot){
+    var retVal =  prompt("Enter plant name: ", plotsJson['plots'][plot]['plantName']);
+    if (retVal != null){
+      plotsJson['plots'][plot]['plantName'] = retVal;
+      fetch(`./renamePlant?plot=${plot}&name=${retVal}`);
+    }
   }
 
   addPlant(plot,type){
     var [x,y] = indexToGrid(plot);
     fetch(`./addPlant?plot=${plot}&type=${type}&x=${x}&y=${y}`)
+    plotsJson['plots'][plot]['plantName'] = "My" + type;
+
   }
 
   selectType(type){
