@@ -59,7 +59,7 @@ div {
   function changePswd() {
     var oldpass = document.getElementById("lastpass").value;
     var newpass = document.getElementById("newpass").value;
-    alert("Password changed from" + oldpass + " to " ) + newpass;
+    alert("Password changed from" + oldpass + " to " + newpass);
   }
 </script>
 
@@ -71,6 +71,8 @@ div {
     <input type="text" id="lastpass" name="lastpass">
     <label for="npass">New Password</label>
     <input type="text" id="oldpass" name="lastpass">
+    <label for="confirmpass">Confirm New Password</label>
+    <input type="text" id="confirmpass" name="cofirmpass">
 
     <button type="submit" class="btn" onclick="changePswd();">Change</button>
     <a class="btn-cancel" href="admin">Back</a>
