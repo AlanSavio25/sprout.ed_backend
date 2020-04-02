@@ -27,6 +27,12 @@ def actions():
 def change():
     return render_template('change.html')
 
+@app.route("/forgotPassword")
+
+def forgotPassword():
+    return render_template('forgotPassword.html')
+
+
 @app.route("/addthis" , methods = ['POST'])
 def addtojson():
     name = request.form['plantname']
