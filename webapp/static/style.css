@@ -4,7 +4,10 @@ body {
     margin-top: 100px;
     margin-bottom: 50px;
     font-family: 'Open Sans', sans-serif;
+    min-width:700px;
+    _width: expression( document.body.clientWidth > 700 ? "700px" : "auto" ); /* sets max-width for IE6 */
 }
+
 
 h1 {
   font-family: 'Timesnewroman', serif;
