@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>sprout.ed - Admin</title>
+        <link rel="stylesheet" href="/static/style.css" />
+        <link rel="shortcut icon" type="image/png" href="/static/favicon.png"/>
+        <script src="/static/Chart.bundle.js"></script>
+        <script type="text/javascript" src="/static/jquery-3.4.1.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/DataTables/datatables.min.css"/>
+        <script type="text/javascript" src="/static/DataTables/datatables.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+
+    </head>
+    <body>
+      <div id="seedpodOverlay">
+        <div class="seedPodBox">
+          <h4>Configure Seedpods</h4>
+          <div id ="podHolder">
+            <div class="podData podRow" id="pod1">
+              <div class="podCircular podNumber">1</div>
+              <div class="podPlant">
+                <select class= "podSelect">
+                  <option>Empty</option>
+                  <option>👨‍🌾 Fertilizer</option>
+                  <option>🍀 Basil</option>
+                  <option>🌺 Geranium</option>
+                  <option>🌼 Nasturtium</option>
+                  <option>🌱 Coriander</option>
+                  <option>🌿 Boston Fern</option>
+                </select>
+              </div>
+              <div class="podCircular podDelete" onclick="deletePod(1)"> X </div>
+            </div>
+          </div>
+          <div class="podAdd podRow" onclick="addPod()">
+            +
+          </div>
+
+          <a class="button negButton" onclick="overlayOff()">Cancel</a>
+          <a class="button" onclick="overlayOff()" style="float:right">Save</a>
+        </div>
+      </div>
+
+      <a class="button" onclick="overlayOn()">Cancel</a>
+    </body>
+    <script>
+      function addPod(){
+        number = document.getElementById("podHolder").children.length + 1;
+        var creator = document.createElement("div");
+        creator.innerHTML = `<div class="podData podRow" id="pod${number}">
+          <div class="podCircular podNumber">${number}</div>
+          <div class="podPlant">
+            <select class= "podSelect">
+              <option>Empty</option>
+              <option>👨‍🌾 Fertilizer</option>
+              <option>🍀 Basil</option>
+              <option>🌺 Geranium</option>
+              <option>🌼 Nasturtium</option>
+              <option>🌱 Coriander</option>
+              <option>🌿 Boston Fern</option>
+            </select>
+          </div>
+          <div class="podCircular podDelete" onclick="deletePod(${number})"> X </div>
+        </div>`
+        document.getElementById("podHolder").append(creator.firstChild);
+      }
+      function deletePod(number){
+        document.getElementById(`pod${number}`).remove();
+      }
+
+      function overlayOn() {
+        document.getElementById("seedpodOverlay").style.display = "block";
+      }
+
+      function overlayOff() {
+        document.getElementById("seedpodOverlay").style.display = "none";
+      }
+    </script>
+</html>

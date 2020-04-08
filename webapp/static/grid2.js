@@ -328,17 +328,18 @@ class Board extends React.Component {
   }
 
   renamePlant(plot){
-    var retVal =  prompt("Enter plant name: ", plotsJson['plots'][plot]['plantName']);
-    if (retVal != null){
-      plotsJson['plots'][plot]['plantName'] = retVal;
-      fetch(`./renamePlant?plot=${plot}&name=${retVal}`);
-    }
+    var retVal =  prompt("Enter plant name (Disabled during trade fair demo!): ", plotsJson['plots'][plot]['plantName']);
+    // if (retVal != null){
+    //   plotsJson['plots'][plot]['plantName'] = retVal;
+    //   fetch(`./renamePlant?plot=${plot}&name=${retVal}`);
+    // }
   }
 
   addPlant(plot,type){
     var [x,y] = indexToGrid(plot);
     fetch(`./addPlant?plot=${plot}&type=${type}&x=${x}&y=${y}`)
     plotsJson['plots'][plot]['plantName'] = "My" + type;
+    plotsJson['plots'][plot]['plantType'] = type;
 
   }
 
@@ -446,6 +447,8 @@ class Board extends React.Component {
     if (this.state.mode == "sow" && this.state.selectedType){
       if (this.state.plantable[i] && this.radiusPlantable()){
         icons[i] = plantDB['types'][this.state.selectedType]["sprite"];
+        this.state.icons[i] = plantDB['types'][this.state.selectedType]["sprite"];
+        console.log(icons[i]);
         this.markUnPlantable(this.state.hoverArray);
         this.addPlant(i,this.state.selectedType)
       }
@@ -464,6 +467,22 @@ class Board extends React.Component {
     this.state.hoverArray.forEach((item, i) => {
       plantable = plantable && this.state.plantable[item];
     });
+
+    var center = this.state.hoverGrid;
+    var r = plantDB['types'][this.state.selectedType]["spreadRadiusCM"];
+    var [sourceX,sourceY] = indexToGrid(center);
+
+    if   ((maxRow*this.state.gridToCM <= sourceX*this.state.gridToCM + r) ||
+               (-1*this.state.gridToCM  > sourceX*this.state.gridToCM - r) ||
+          (maxCol*this.state.gridToCM <= sourceY*this.state.gridToCM + r) ||
+               (-1*this.state.gridToCM  > sourceY*this.state.gridToCM - r) ){
+                 console.log(sourceX)
+                 console.log(sourceY)
+                 console.log(-0.5*this.state.gridToCM)
+
+                 return false;
+            }
+
 
     return plantable;
   }
