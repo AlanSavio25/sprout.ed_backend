@@ -1,38 +1,28 @@
 {
-  "_comment": "Data taken from openfarm.cc, converted to gridsize in app, measurements in cm",
+  "_comment": "Data taken from openfarm.cc, measurements in cm",
   "types": {
     "Basil":{
       "spreadRadiusCM": 8,
-      "heightCM": 60,
-      "rowSpacingCM" : 5,
       "sprite": "🍀",
       "description": "A herb used in a variety of cuisines"
     },
     "Geranium":{
       "spreadRadiusCM": 16,
-      "heightCM": 60,
-      "rowSpacingCM" : 13,
       "sprite": "🌺",
       "description": "A truly bright and uplifting flower"
     },
     "Nasturtium":{
       "spreadRadiusCM": 13,
-      "heightCM": 60,
-      "rowSpacingCM" : 13,
       "sprite": "🌼",
       "description": "A tasty herb with a beautiful flower"
     },
     "Coriander":{
       "spreadRadiusCM": 5.0,
-      "heightCM": 60,
-      "rowSpacingCM" : 7.5,
       "sprite": "🌱",
       "description": "Empowering office cooks"
     },
     "Boston Fern":{
       "spreadRadiusCM": 25,
-      "heightCM": 60,
-      "rowSpacingCM" : 13,
       "sprite": "🌿",
       "description": "A graceful and drooping fern"
     }
